@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">UrlDispatcher</string>
+    <string name="action_settings">Settings</string>
+</resources>
