@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import io.reactivex.Maybe
 
 @Dao
 interface UrlDao {
@@ -11,5 +12,5 @@ interface UrlDao {
     fun insertUrl(url: Url)
 
     @Query("SELECT * FROM url")
-    fun getUrls(): List<Url>
+    fun getUrls(): Maybe<List<Url>>
 }
