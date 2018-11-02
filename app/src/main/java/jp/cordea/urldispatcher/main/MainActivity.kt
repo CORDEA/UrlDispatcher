@@ -9,14 +9,19 @@ import jp.cordea.urldispatcher.R
 
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
+import org.koin.androidx.scope.ext.android.bindScope
+import org.koin.androidx.scope.ext.android.getOrCreateScope
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainViewModel by inject()
+    private val viewModel: MainViewModel by viewModel()
+    private val adapter: MainAdapter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        bindScope(getOrCreateScope(SCOPE))
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
@@ -41,5 +46,9 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    companion object {
+        const val SCOPE = "MainActivity"
     }
 }
