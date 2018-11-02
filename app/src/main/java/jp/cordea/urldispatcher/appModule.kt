@@ -1,6 +1,7 @@
 package jp.cordea.urldispatcher
 
 import androidx.room.Room
+import jp.cordea.urldispatcher.add.AddViewModel
 import jp.cordea.urldispatcher.main.MainActivity
 import jp.cordea.urldispatcher.main.MainAdapter
 import jp.cordea.urldispatcher.main.MainViewModel
@@ -18,4 +19,6 @@ val appModule = module {
 
     viewModel { MainViewModel(get()) }
     scope(MainActivity.SCOPE) { MainAdapter() }
+
+    viewModel { AddViewModel(get()) }
 }
