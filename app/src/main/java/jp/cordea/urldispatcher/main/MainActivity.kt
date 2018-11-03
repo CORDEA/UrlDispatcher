@@ -15,11 +15,13 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.scope.ext.android.bindScope
 import org.koin.androidx.scope.ext.android.getOrCreateScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModel()
-    private val adapter: MainAdapter by inject()
+    private val adapter: MainAdapter by inject { parametersOf(this@MainActivity) }
+    private val navigator: MainNavigator by inject { parametersOf(this@MainActivity) }
 
     private lateinit var binding: ActivityMainBinding
 
@@ -33,10 +35,7 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
 
         binding.fab.setOnClickListener {
-            startActivityForResult(
-                    Intent(this, AddActivity::class.java),
-                    AddActivity.REQUEST_CODE
-            )
+            navigator.navigateToAdd()
         }
 
         disposable = viewModel.adapterItems

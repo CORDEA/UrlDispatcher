@@ -2,11 +2,10 @@ package jp.cordea.urldispatcher
 
 import androidx.room.Room
 import jp.cordea.urldispatcher.add.AddViewModel
-import jp.cordea.urldispatcher.main.MainActivity
-import jp.cordea.urldispatcher.main.MainAdapter
-import jp.cordea.urldispatcher.main.MainViewModel
+import jp.cordea.urldispatcher.main.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.koin.viewModel
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module.module
 
 val appModule = module {
@@ -18,7 +17,14 @@ val appModule = module {
     single<UrlRepository> { UrlRepositoryImpl(get()) }
 
     viewModel { MainViewModel(get()) }
-    scope(MainActivity.SCOPE) { MainAdapter() }
+
+    scope(MainActivity.SCOPE) { (activity: MainActivity) -> MainNavigator(activity) }
+    scope(MainActivity.SCOPE) { (activity: MainActivity) ->
+        MainListItemProvider(get { parametersOf(activity) })
+    }
+    scope(MainActivity.SCOPE) { (activity: MainActivity) ->
+        MainAdapter(get { parametersOf(activity) })
+    }
 
     viewModel { AddViewModel(get()) }
 }
