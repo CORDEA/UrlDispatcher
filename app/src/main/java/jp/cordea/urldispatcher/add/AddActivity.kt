@@ -1,6 +1,7 @@
 package jp.cordea.urldispatcher.add
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import jp.cordea.urldispatcher.R
@@ -16,10 +17,18 @@ class AddActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == android.R.id.home) {
+            storeUrl()
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun storeUrl() {
         val text = binding.url.editText?.text?.toString()
         if (text.isNullOrBlank()) {
             return
