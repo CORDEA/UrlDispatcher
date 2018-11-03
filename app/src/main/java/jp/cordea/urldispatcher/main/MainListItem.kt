@@ -2,13 +2,20 @@ package jp.cordea.urldispatcher.main
 
 import com.xwray.groupie.databinding.BindableItem
 import jp.cordea.urldispatcher.R
+import jp.cordea.urldispatcher.Url
 import jp.cordea.urldispatcher.databinding.ListItemMainBinding
 
 class MainListItemModel(
         val title: String,
         val description: String,
-        val addedAt: String
-)
+        addedAt: Long
+) {
+    companion object {
+        fun from(url: Url) = MainListItemModel(url.url, "", url.addedAt)
+    }
+
+    val addedAt: String = addedAt.toString()
+}
 
 class MainListItem(private val model: MainListItemModel) : BindableItem<ListItemMainBinding>() {
     override fun getLayout(): Int = R.layout.list_item_main
