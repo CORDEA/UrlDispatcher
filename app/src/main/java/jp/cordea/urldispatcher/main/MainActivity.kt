@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         bindScope(getOrCreateScope(SCOPE))
         setSupportActionBar(toolbar)
+        binding.recyclerView.adapter = adapter
 
         binding.fab.setOnClickListener {
             startActivity(Intent(this, AddActivity::class.java))
