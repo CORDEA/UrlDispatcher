@@ -16,7 +16,7 @@ class MainViewModel(
 
     private var disposable: Disposable? = null
 
-    fun start() {
+    fun refresh() {
         disposable = repository.getUrls()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ list ->

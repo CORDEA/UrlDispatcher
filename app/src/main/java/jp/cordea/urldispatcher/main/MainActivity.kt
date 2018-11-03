@@ -1,5 +1,6 @@
 package jp.cordea.urldispatcher.main
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -32,13 +33,27 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
 
         binding.fab.setOnClickListener {
-            startActivity(Intent(this, AddActivity::class.java))
+            startActivityForResult(
+                    Intent(this, AddActivity::class.java),
+                    AddActivity.REQUEST_CODE
+            )
         }
 
         disposable = viewModel.adapterItems
                 .subscribeBy { adapter.update(it) }
 
-        viewModel.start()
+        viewModel.refresh()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+        if (requestCode != AddActivity.REQUEST_CODE) {
+            return
+        }
+        viewModel.refresh()
     }
 
     override fun onDestroy() {

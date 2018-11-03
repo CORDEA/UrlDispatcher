@@ -1,5 +1,6 @@
 package jp.cordea.urldispatcher.add
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,7 @@ class AddActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == android.R.id.home) {
             storeUrl()
+            setResult(Activity.RESULT_OK)
             finish()
         }
         return super.onOptionsItemSelected(item)
@@ -35,5 +37,9 @@ class AddActivity : AppCompatActivity() {
             return
         }
         viewModel.storeUrl(url, description)
+    }
+
+    companion object {
+        const val REQUEST_CODE = 1
     }
 }

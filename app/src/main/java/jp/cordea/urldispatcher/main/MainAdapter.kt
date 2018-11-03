@@ -5,6 +5,7 @@ import com.xwray.groupie.ViewHolder
 
 class MainAdapter : GroupAdapter<ViewHolder>() {
     fun update(models: List<MainListItemModel>) {
+        clear()
         addAll(models.map { MainListItem(it) })
     }
 }
