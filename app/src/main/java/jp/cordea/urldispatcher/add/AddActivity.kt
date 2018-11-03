@@ -29,10 +29,11 @@ class AddActivity : AppCompatActivity() {
     }
 
     private fun storeUrl() {
-        val text = binding.url.editText?.text?.toString()
-        if (text.isNullOrBlank()) {
+        val url = binding.url.editText?.text?.toString()
+        val description = binding.description.editText?.text?.toString()
+        if (url.isNullOrBlank() || description.isNullOrBlank()) {
             return
         }
-        viewModel.storeUrl(text)
+        viewModel.storeUrl(url, description)
     }
 }

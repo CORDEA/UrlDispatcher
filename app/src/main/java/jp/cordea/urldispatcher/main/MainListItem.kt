@@ -11,7 +11,7 @@ class MainListItemModel(
         addedAt: Long
 ) {
     companion object {
-        fun from(url: Url) = MainListItemModel(url.url, "", url.addedAt)
+        fun from(url: Url) = MainListItemModel(url.url, url.description, url.addedAt)
     }
 
     val addedAt: String = addedAt.toString()
