@@ -1,12 +1,13 @@
 package jp.cordea.urldispatcher.main
 
+import android.net.Uri
 import com.xwray.groupie.databinding.BindableItem
 import jp.cordea.urldispatcher.R
 import jp.cordea.urldispatcher.Url
 import jp.cordea.urldispatcher.databinding.ListItemMainBinding
 
 class MainListItemModel(
-        val title: String,
+        url: String,
         val description: String,
         addedAt: Long
 ) {
@@ -14,6 +15,8 @@ class MainListItemModel(
         fun from(url: Url) = MainListItemModel(url.url, url.description, url.addedAt)
     }
 
+    val title: String = url
+    val uri: Uri = Uri.parse(url)
     val addedAt: String = addedAt.toString()
 }
 
@@ -26,7 +29,7 @@ class MainListItem(
     override fun bind(binding: ListItemMainBinding, position: Int) {
         binding.model = model
         binding.root.setOnClickListener {
-            navigator.navigateToWeb()
+            navigator.navigateToWeb(model.uri)
         }
     }
 }

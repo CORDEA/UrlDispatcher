@@ -2,6 +2,7 @@ package jp.cordea.urldispatcher.main
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import jp.cordea.urldispatcher.add.AddActivity
 
 class MainNavigator(
@@ -14,6 +15,9 @@ class MainNavigator(
         )
     }
 
-    fun navigateToWeb() {
+    fun navigateToWeb(uri: Uri) {
+        activity.startActivity(
+                Intent(Intent.ACTION_VIEW, uri)
+        )
     }
 }
