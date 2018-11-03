@@ -6,5 +6,5 @@ import androidx.room.PrimaryKey
 @Entity
 class Url(
         @PrimaryKey val url: String,
-        val addedAt: String
+        val addedAt: Long
 )
