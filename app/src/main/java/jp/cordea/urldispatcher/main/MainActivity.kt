@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         bindScope(getOrCreateScope(SCOPE))
         setSupportActionBar(toolbar)
+        supportActionBar?.title = getString(R.string.title_main)
         binding.recyclerView.adapter = adapter
 
         binding.fab.setOnClickListener {

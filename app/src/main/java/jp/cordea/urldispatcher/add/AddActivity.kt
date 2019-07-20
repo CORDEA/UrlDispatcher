@@ -19,6 +19,7 @@ class AddActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.title_add)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
