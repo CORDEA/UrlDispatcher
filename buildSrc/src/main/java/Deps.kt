@@ -31,5 +31,12 @@ object Deps {
     const val room_rxjava2 = "androidx.room:room-rxjava2:2.1.0-alpha01"
     const val room_compiler = "androidx.room:room-compiler:2.1.0-alpha01"
 
+    private val nav_version = "2.1.0-beta01"
+    val navigation_fragment = "androidx.navigation:navigation-fragment:$nav_version"
+    val navigation_fragment_ktx = "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    val navigation_ui = "androidx.navigation:navigation-ui:$nav_version"
+    val navigation_ui_ktx = "androidx.navigation:navigation-ui-ktx:$nav_version"
+    val navigation_safe_args_plugin = "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+
     const val junit = "junit:junit:4.12"
 }

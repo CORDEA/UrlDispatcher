@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -33,6 +35,11 @@ dependencies {
     implementation Deps.core_ktx
     implementation Deps.constraintlayout
     implementation Deps.material
+
+    implementation Deps.navigation_fragment
+    implementation Deps.navigation_fragment_ktx
+    implementation Deps.navigation_ui
+    implementation Deps.navigation_ui_ktx
 
     implementation Deps.room_runtime
     implementation Deps.room_rxjava2
