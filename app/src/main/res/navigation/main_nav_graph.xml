@@ -6,9 +6,19 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="jp.cordea.urldispatcher.main.HomeFragment"
-        android:label="MainFragment" />
+        android:label="HomeFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_addFragment"
+            app:destination="@id/addFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addFragment"
         android:name="jp.cordea.urldispatcher.add.AddFragment"
-        android:label="AddFragment" />
+        android:label="AddFragment">
+        <argument
+            android:name="url"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>
