@@ -18,7 +18,12 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val id = destination.id
             when (id) {
-                R.id.mainFragment -> supportActionBar?.title = getString(R.string.title_main)
+                R.id.mainFragment -> {
+                    supportActionBar?.apply {
+                        title = getString(R.string.title_main)
+                        setDisplayHomeAsUpEnabled(false)
+                    }
+                }
                 R.id.addFragment -> {
                     supportActionBar?.apply {
                         title = getString(R.string.title_add)
