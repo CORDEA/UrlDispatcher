@@ -1,8 +1,6 @@
 package jp.cordea.urldispatcher.main
 
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,19 +8,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
-import jp.cordea.urldispatcher.add.AddFragment
-import jp.cordea.urldispatcher.databinding.FragmentMainBinding
+import jp.cordea.urldispatcher.databinding.HomeFragmentBinding
 import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class MainFragment : Fragment() {
+class HomeFragment : Fragment() {
 
-    private val viewModel: MainViewModel by viewModel()
-    private val adapter: MainAdapter by currentScope.inject { parametersOf(this) }
-    private val navigator: MainNavigator by currentScope.inject { parametersOf(this) }
+    private val viewModel: HomeViewModel by viewModel()
+    private val adapter: HomeAdapter by currentScope.inject { parametersOf(this) }
+    private val navigator: HomeNavigator by currentScope.inject { parametersOf(this) }
 
-    private lateinit var binding: FragmentMainBinding
+    private lateinit var binding: HomeFragmentBinding
 
     private var disposable: Disposable? = null
 
@@ -31,7 +28,7 @@ class MainFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMainBinding.inflate(inflater, container, false)
+        binding = HomeFragmentBinding.inflate(inflater, container, false)
         binding.recyclerView.adapter = adapter
 
         binding.fab.setOnClickListener {
@@ -45,23 +42,8 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) {
-            return
-        }
-        if (requestCode != AddFragment.REQUEST_CODE) {
-            return
-        }
-        viewModel.refresh()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         disposable?.dispose()
-    }
-
-    companion object {
-        private const val SCOPE = "MainFragment"
     }
 }

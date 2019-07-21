@@ -7,11 +7,11 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.processors.BehaviorProcessor
 import jp.cordea.urldispatcher.UrlRepository
 
-class MainViewModel(
+class HomeViewModel(
         private val repository: UrlRepository
 ) : ViewModel() {
-    private val _adapterItems = BehaviorProcessor.create<List<MainListItemModel>>()
-    val adapterItems: Flowable<List<MainListItemModel>> =
+    private val _adapterItems = BehaviorProcessor.create<List<HomeListItemModel>>()
+    val adapterItems: Flowable<List<HomeListItemModel>> =
             _adapterItems.observeOn(AndroidSchedulers.mainThread())
 
     private var disposable: Disposable? = null
@@ -20,7 +20,7 @@ class MainViewModel(
         disposable = repository.getUrls()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ list ->
-                    _adapterItems.onNext(list.map { MainListItemModel.from(it) })
+                    _adapterItems.onNext(list.map { HomeListItemModel.from(it) })
                 }, {
                     _adapterItems.onNext(emptyList())
                 })

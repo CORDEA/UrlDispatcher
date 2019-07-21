@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import jp.cordea.urldispatcher.R
 
-class MainNavigator(
+class HomeNavigator(
         private val fragment: Fragment
 ) {
     fun navigateToAdd() {

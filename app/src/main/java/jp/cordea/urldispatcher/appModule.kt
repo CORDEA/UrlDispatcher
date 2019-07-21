@@ -17,15 +17,15 @@ val appModule = module {
     single { UrlLocalDataSource(get()) }
     single<UrlRepository> { UrlRepositoryImpl(get()) }
 
-    viewModel { MainViewModel(get()) }
+    viewModel { HomeViewModel(get()) }
 
-    scope(named<MainFragment>()) {
-        scoped { (fragment: MainFragment) -> MainNavigator(fragment) }
-        scoped { (fragment: MainFragment) ->
-            MainListItemProvider(get { parametersOf(fragment) })
+    scope(named<HomeFragment>()) {
+        scoped { (fragment: HomeFragment) -> HomeNavigator(fragment) }
+        scoped { (fragment: HomeFragment) ->
+            HomeListItemProvider(get { parametersOf(fragment) })
         }
-        scoped { (fragment: MainFragment) ->
-            MainAdapter(get { parametersOf(fragment) })
+        scoped { (fragment: HomeFragment) ->
+            HomeAdapter(get { parametersOf(fragment) })
         }
     }
 
