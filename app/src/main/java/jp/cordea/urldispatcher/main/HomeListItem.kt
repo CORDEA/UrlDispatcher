@@ -5,6 +5,8 @@ import com.xwray.groupie.databinding.BindableItem
 import jp.cordea.urldispatcher.R
 import jp.cordea.urldispatcher.Url
 import jp.cordea.urldispatcher.databinding.HomeListItemBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HomeListItemModel(
         url: String,
@@ -15,9 +17,12 @@ class HomeListItemModel(
         fun from(url: Url) = HomeListItemModel(url.url, url.description, url.addedAt)
     }
 
+    private val formatter = SimpleDateFormat("M/d HH:mm", Locale.getDefault())
+
+
     val title: String = url
     val uri: Uri = Uri.parse(url)
-    val addedAt: String = addedAt.toString()
+    val addedAt: String = formatter.format(Date(addedAt))
 }
 
 class HomeListItem(
