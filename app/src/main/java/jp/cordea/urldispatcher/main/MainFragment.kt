@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import io.reactivex.disposables.Disposable
-import jp.cordea.urldispatcher.add.AddActivity
+import jp.cordea.urldispatcher.add.AddFragment
 import jp.cordea.urldispatcher.databinding.FragmentMainBinding
 import org.koin.androidx.scope.ext.android.bindScope
 import org.koin.androidx.scope.ext.android.getOrCreateScope
@@ -49,7 +49,7 @@ class MainFragment : Fragment() {
         if (resultCode != Activity.RESULT_OK) {
             return
         }
-        if (requestCode != AddActivity.REQUEST_CODE) {
+        if (requestCode != AddFragment.REQUEST_CODE) {
             return
         }
         viewModel.refresh()
