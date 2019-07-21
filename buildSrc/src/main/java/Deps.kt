@@ -16,10 +16,10 @@ object Deps {
     const val rxandroid = "io.reactivex.rxjava2:rxandroid:2.1.0"
     const val rxkotlin = "io.reactivex.rxjava2:rxkotlin:2.3.0"
 
-    private const val koin_version = "2.0.0-rc-2"
+    private const val koin_version = "2.0.1"
     const val koin_android = "org.koin:koin-android:$koin_version"
-    const val koin_androidx_scope = "org.koin:koin-androidx-scope:1.0.1"
-    const val koin_androidx_viewmodel = "org.koin:koin-androidx-viewmodel:1.0.1"
+    const val koin_androidx_scope = "org.koin:koin-androidx-scope:$koin_version"
+    const val koin_androidx_viewmodel = "org.koin:koin-androidx-viewmodel:$koin_version"
 
     private const val groupie_version = "2.3.0"
     const val groupie = "com.xwray:groupie:$groupie_version"
