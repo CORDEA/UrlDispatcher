@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import jp.cordea.urldispatcher.databinding.FragmentAddBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -28,8 +29,7 @@ class AddFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             storeUrl()
-//            setResult(Activity.RESULT_OK)
-//            finish()
+            NavHostFragment.findNavController(this).popBackStack()
         }
         return super.onOptionsItemSelected(item)
     }

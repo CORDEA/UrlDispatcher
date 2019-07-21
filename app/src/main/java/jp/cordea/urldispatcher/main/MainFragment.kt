@@ -12,17 +12,15 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 import jp.cordea.urldispatcher.add.AddFragment
 import jp.cordea.urldispatcher.databinding.FragmentMainBinding
-import org.koin.android.ext.android.inject
-import org.koin.androidx.scope.ext.android.bindScope
-import org.koin.androidx.scope.ext.android.getOrCreateScope
+import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by viewModel()
-    private val adapter: MainAdapter by inject { parametersOf(this) }
-    private val navigator: MainNavigator by inject { parametersOf(this) }
+    private val adapter: MainAdapter by currentScope.inject { parametersOf(this) }
+    private val navigator: MainNavigator by currentScope.inject { parametersOf(this) }
 
     private lateinit var binding: FragmentMainBinding
 
@@ -34,7 +32,6 @@ class MainFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         binding = FragmentMainBinding.inflate(inflater, container, false)
-        bindScope(getOrCreateScope(SCOPE))
         binding.recyclerView.adapter = adapter
 
         binding.fab.setOnClickListener {
@@ -45,6 +42,7 @@ class MainFragment : Fragment() {
                 .subscribeBy { adapter.update(it) }
 
         viewModel.refresh()
+        return binding.root
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
