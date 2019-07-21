@@ -13,6 +13,11 @@ class HomeNavigator(
         NavHostFragment.findNavController(fragment).navigate(R.id.addFragment)
     }
 
+    fun showBottomSheet() {
+        HomeBottomSheetDialogFragment()
+                .show(fragment.childFragmentManager, HomeBottomSheetDialogFragment.TAG)
+    }
+
     fun navigateToWeb(uri: Uri) {
         fragment.startActivity(
                 Intent(Intent.ACTION_VIEW, uri)

@@ -5,6 +5,9 @@
     <string name="title_main">URL Dispatcher</string>
     <string name="title_add">Add URL</string>
 
+    <string name="bottom_sheet_edit">Edit</string>
+    <string name="bottom_sheet_delete">Delete</string>
+
     <string name="add_url_hint">URL</string>
     <string name="add_description_hint">Description</string>
 </resources>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/edit_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:src="@drawable/ic_edit_black_24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/bottom_sheet_edit"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/edit_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/edit_icon"
+            app:layout_constraintTop_toTopOf="@id/edit_icon" />
+
+        <View
+            android:id="@+id/edit"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="@id/edit_icon"
+            app:layout_constraintEnd_toEndOf="@id/edit_text"
+            app:layout_constraintStart_toStartOf="@id/edit_icon"
+            app:layout_constraintTop_toTopOf="@id/edit_icon" />
+
+        <ImageView
+            android:id="@+id/delete_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:src="@drawable/ic_delete_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_icon" />
+
+        <TextView
+            android:id="@+id/delete_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/bottom_sheet_delete"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/delete_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/edit_icon"
+            app:layout_constraintTop_toTopOf="@id/delete_icon" />
+
+        <View
+            android:id="@+id/delete"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="@id/delete_icon"
+            app:layout_constraintEnd_toEndOf="@id/delete_text"
+            app:layout_constraintStart_toStartOf="@id/delete_icon"
+            app:layout_constraintTop_toTopOf="@id/delete_icon" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
