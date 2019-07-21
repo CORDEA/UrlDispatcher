@@ -12,5 +12,7 @@ class UrlLocalDataSource(
                 it.onComplete()
             }
 
+    override fun findUrl(url: String): Maybe<Url> = urlDao.findUrl(url)
+
     override fun getUrls(): Maybe<List<Url>> = urlDao.getUrls()
 }

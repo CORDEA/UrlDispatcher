@@ -11,6 +11,9 @@ interface UrlDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUrl(url: Url)
 
+    @Query("SELECT * FROM url WHERE url = :url LIMIT 1")
+    fun findUrl(url: String): Maybe<Url>
+
     @Query("SELECT * FROM url")
     fun getUrls(): Maybe<List<Url>>
 }

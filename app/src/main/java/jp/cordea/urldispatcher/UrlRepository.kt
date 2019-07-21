@@ -5,5 +5,6 @@ import io.reactivex.Maybe
 
 interface UrlRepository {
     fun insertUrl(url: Url): Completable
+    fun findUrl(url: String): Maybe<Url>
     fun getUrls(): Maybe<List<Url>>
 }
