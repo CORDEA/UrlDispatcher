@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
@@ -57,4 +59,10 @@ dependencies {
     implementation Deps.groupie_databinding
 
     testImplementation Deps.junit
+}
+
+tasks.withType(KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }

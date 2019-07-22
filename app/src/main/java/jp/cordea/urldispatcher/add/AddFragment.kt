@@ -8,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.navArgs
+import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.subscribeBy
 import jp.cordea.urldispatcher.databinding.FragmentAddBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -16,6 +19,10 @@ class AddFragment : Fragment() {
     private val viewModel: AddViewModel by viewModel()
 
     private lateinit var binding: FragmentAddBinding
+
+    private var disposable: Disposable? = null
+
+    private val args: AddFragmentArgs by navArgs()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -26,12 +33,28 @@ class AddFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.init(args.url)
+
+        disposable = viewModel.url
+                .subscribeBy {
+                    binding.url.editText?.setText(it.url)
+                    binding.description.editText?.setText(it.url)
+                }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             storeUrl()
             NavHostFragment.findNavController(this).popBackStack()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable?.dispose()
     }
 
     private fun storeUrl() {
@@ -41,9 +64,5 @@ class AddFragment : Fragment() {
             return
         }
         viewModel.storeUrl(url, description)
-    }
-
-    companion object {
-        const val REQUEST_CODE = 1
     }
 }
