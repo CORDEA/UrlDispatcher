@@ -1,4 +1,4 @@
-package jp.cordea.urldispatcher.main
+package jp.cordea.urldispatcher.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

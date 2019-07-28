@@ -5,7 +5,7 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="jp.cordea.urldispatcher.main.HomeFragment"
+        android:name="jp.cordea.urldispatcher.home.HomeFragment"
         android:label="HomeFragment">
         <action
             android:id="@+id/action_homeFragment_to_editFragment"
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeBottomSheetDialogFragment"
-        android:name="jp.cordea.urldispatcher.main.HomeBottomSheetDialogFragment"
+        android:name="jp.cordea.urldispatcher.home.HomeBottomSheetDialogFragment"
         android:label="HomeBottomSheetDialogFragment">
         <argument
             android:name="url"

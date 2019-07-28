@@ -1,4 +1,4 @@
-package jp.cordea.urldispatcher.main
+package jp.cordea.urldispatcher.home
 
 import android.content.ActivityNotFoundException
 import android.net.Uri

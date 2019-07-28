@@ -4,7 +4,7 @@ import androidx.room.Room
 import jp.cordea.urldispatcher.edit.EditFragment
 import jp.cordea.urldispatcher.edit.EditNavigator
 import jp.cordea.urldispatcher.edit.EditViewModel
-import jp.cordea.urldispatcher.main.*
+import jp.cordea.urldispatcher.home.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf

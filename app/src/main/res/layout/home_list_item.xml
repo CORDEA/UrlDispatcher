@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="jp.cordea.urldispatcher.main.HomeListItemModel" />
+            type="jp.cordea.urldispatcher.home.HomeListItemModel" />
     </data>
 
     <androidx.cardview.widget.CardView
