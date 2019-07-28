@@ -1,20 +1,15 @@
 package jp.cordea.urldispatcher
 
-import androidx.room.Room
 import jp.cordea.urldispatcher.edit.EditFragment
 import jp.cordea.urldispatcher.edit.EditNavigator
 import jp.cordea.urldispatcher.edit.EditViewModel
 import jp.cordea.urldispatcher.home.*
-import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val appModule = module {
-    single {
-        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "urlDispatcher").build()
-    }
     single { get<AppDatabase>().urlDao() }
     single { UrlLocalDataSource(get()) }
     single<UrlRepository> { UrlRepositoryImpl(get()) }
