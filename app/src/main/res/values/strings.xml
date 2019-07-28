@@ -12,4 +12,6 @@
     <string name="add_description_hint">Description</string>
 
     <string name="not_found_error_title">Activity not found.</string>
+    <string name="url_empty_error_title">URL is empty.</string>
+    <string name="failed_to_save_url_error_title">Failed to save url.</string>
 </resources>

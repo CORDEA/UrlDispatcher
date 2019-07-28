@@ -19,6 +19,12 @@ class AddViewModel(
     private val _url = MutableLiveData<Url>()
     val url: LiveData<Url> = _url
 
+    private val _error = MutableLiveData<ErrorType>()
+    val error: LiveData<ErrorType> = _error
+
+    private val _popBackStack = MutableLiveData<Unit>()
+    val popBackStack: LiveData<Unit> = _popBackStack
+
     fun init(url: String?) {
         url ?: return
         repository.findUrl(url)
@@ -27,15 +33,27 @@ class AddViewModel(
                 .addTo(compositeDisposable)
     }
 
-    fun storeUrl(url: String, description: String) {
-        repository.insertUrl(Url(url, description, Date().time))
+    fun trySaveUrl(url: String?, description: String?) {
+        if (url.isNullOrBlank()) {
+            _error.value = ErrorType.EMPTY_URL
+            return
+        }
+        repository.insertUrl(Url(url, description ?: "", Date().time))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy { }
+                .subscribeBy(
+                        onComplete = { _popBackStack.value = Unit },
+                        onError = { _error.value = ErrorType.UNKNOWN }
+                )
                 .addTo(compositeDisposable)
     }
 
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.clear()
+    }
+
+    enum class ErrorType {
+        EMPTY_URL,
+        UNKNOWN
     }
 }

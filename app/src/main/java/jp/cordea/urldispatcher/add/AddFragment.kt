@@ -6,20 +6,20 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import jp.cordea.urldispatcher.R
 import jp.cordea.urldispatcher.databinding.FragmentAddBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddFragment : Fragment() {
-
     private val viewModel: AddViewModel by viewModel()
+    private val args: AddFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentAddBinding
-
-    private val args: AddFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +34,10 @@ class AddFragment : Fragment() {
     ): View {
         binding = FragmentAddBinding.inflate(inflater, container, false)
         binding.fab.setOnClickListener {
-            storeUrl()
-            findNavController().popBackStack()
+            viewModel.trySaveUrl(
+                    binding.url.editText?.text?.toString(),
+                    binding.description.editText?.text?.toString()
+            )
         }
         return binding.root
     }
@@ -48,6 +50,23 @@ class AddFragment : Fragment() {
                     binding.url.editText?.setText(it.url)
                     binding.description.editText?.setText(it.description)
                 })
+        viewModel.error
+                .observe(this, Observer {
+                    Toast.makeText(
+                            requireContext(),
+                            when (it!!) {
+                                AddViewModel.ErrorType.EMPTY_URL ->
+                                    R.string.url_empty_error_title
+                                AddViewModel.ErrorType.UNKNOWN ->
+                                    R.string.failed_to_save_url_error_title
+                            },
+                            Toast.LENGTH_SHORT
+                    ).show()
+                })
+        viewModel.popBackStack
+                .observe(this, Observer {
+                    findNavController().popBackStack()
+                })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -55,14 +74,5 @@ class AddFragment : Fragment() {
             findNavController().popBackStack()
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun storeUrl() {
-        val url = binding.url.editText?.text?.toString()
-        val description = binding.description.editText?.text?.toString()
-        if (url.isNullOrBlank() || description.isNullOrBlank()) {
-            return
-        }
-        viewModel.storeUrl(url, description)
     }
 }
