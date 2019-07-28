@@ -13,9 +13,9 @@ class HomeNavigator(
                 .navigate(HomeFragmentDirections.actionHomeFragmentToAddFragment(url))
     }
 
-    fun showBottomSheet() {
-        HomeBottomSheetDialogFragment()
-                .show(fragment.childFragmentManager, HomeBottomSheetDialogFragment.TAG)
+    fun showBottomSheet(url: String) {
+        HomeBottomSheetDialogFragment.newInstance(url)
+                .show(fragment.childFragmentManager)
     }
 
     fun navigateToWeb(uri: Uri) {

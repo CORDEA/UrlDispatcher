@@ -37,7 +37,7 @@ class HomeListItem(
             navigator.navigateToWeb(model.uri)
         }
         binding.root.setOnLongClickListener {
-            navigator.showBottomSheet()
+            navigator.showBottomSheet(model.uri.toString())
             true
         }
     }
