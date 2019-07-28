@@ -1,5 +1,6 @@
 package jp.cordea.urldispatcher.main
 
+import android.content.ActivityNotFoundException
 import android.net.Uri
 import com.xwray.groupie.databinding.BindableItem
 import jp.cordea.urldispatcher.R
@@ -34,7 +35,11 @@ class HomeListItem(
     override fun bind(binding: HomeListItemBinding, position: Int) {
         binding.model = model
         binding.root.setOnClickListener {
-            navigator.navigateToWeb(model.uri)
+            try {
+                navigator.navigateToWeb(model.uri)
+            } catch (e: ActivityNotFoundException) {
+                navigator.showNotFoundErrorToast()
+            }
         }
         binding.root.setOnLongClickListener {
             navigator.showBottomSheet(model.uri.toString())

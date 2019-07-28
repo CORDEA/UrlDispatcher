@@ -10,4 +10,6 @@
 
     <string name="add_url_hint">URL</string>
     <string name="add_description_hint">Description</string>
+
+    <string name="not_found_error_title">Activity not found.</string>
 </resources>
