@@ -10,9 +10,9 @@ import jp.cordea.urldispatcher.R
 class HomeNavigator(
         private val fragment: Fragment
 ) {
-    fun navigateToAdd(url: String?) {
+    fun navigateToEdit(url: String?) {
         NavHostFragment.findNavController(fragment)
-                .navigate(HomeFragmentDirections.actionHomeFragmentToAddFragment(url))
+                .navigate(HomeFragmentDirections.actionHomeFragmentToEditFragment(url))
     }
 
     fun showBottomSheet(url: String) {

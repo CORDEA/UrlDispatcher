@@ -1,4 +1,4 @@
-package jp.cordea.urldispatcher.add
+package jp.cordea.urldispatcher.edit
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,7 +11,7 @@ import jp.cordea.urldispatcher.Url
 import jp.cordea.urldispatcher.UrlRepository
 import java.util.*
 
-class AddViewModel(
+class EditViewModel(
         private val repository: UrlRepository
 ) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()

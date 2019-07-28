@@ -4,15 +4,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import jp.cordea.urldispatcher.R
-import jp.cordea.urldispatcher.add.AddFragmentArgs
+import jp.cordea.urldispatcher.edit.EditFragmentArgs
 
 class HomeBottomSheetNavigator(
         private val fragment: Fragment
 ) {
     fun navigateToEdit(url: String) {
         fragment.findNavController().navigate(
-                R.id.addFragment,
-                AddFragmentArgs(url).toBundle()
+                R.id.editFragment,
+                EditFragmentArgs(url).toBundle()
         )
     }
 

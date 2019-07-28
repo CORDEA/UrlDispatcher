@@ -8,13 +8,13 @@
         android:name="jp.cordea.urldispatcher.main.HomeFragment"
         android:label="HomeFragment">
         <action
-            android:id="@+id/action_homeFragment_to_addFragment"
-            app:destination="@id/addFragment" />
+            android:id="@+id/action_homeFragment_to_editFragment"
+            app:destination="@id/editFragment" />
     </fragment>
     <fragment
-        android:id="@+id/addFragment"
-        android:name="jp.cordea.urldispatcher.add.AddFragment"
-        android:label="AddFragment">
+        android:id="@+id/editFragment"
+        android:name="jp.cordea.urldispatcher.edit.EditFragment"
+        android:label="EditFragment">
         <argument
             android:name="url"
             android:defaultValue="@null"

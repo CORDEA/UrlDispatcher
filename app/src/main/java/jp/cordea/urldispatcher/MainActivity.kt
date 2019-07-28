@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
                         setDisplayHomeAsUpEnabled(false)
                     }
                 }
-                R.id.addFragment -> {
+                R.id.editFragment -> {
                     supportActionBar?.apply {
                         title = getString(R.string.title_add)
                         setDisplayHomeAsUpEnabled(true)

@@ -1,9 +1,9 @@
 package jp.cordea.urldispatcher
 
 import androidx.room.Room
-import jp.cordea.urldispatcher.add.AddFragment
-import jp.cordea.urldispatcher.add.AddNavigator
-import jp.cordea.urldispatcher.add.AddViewModel
+import jp.cordea.urldispatcher.edit.EditFragment
+import jp.cordea.urldispatcher.edit.EditNavigator
+import jp.cordea.urldispatcher.edit.EditViewModel
 import jp.cordea.urldispatcher.main.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -39,9 +39,9 @@ val appModule = module {
         scoped { (fragment: HomeBottomSheetDialogFragment) -> HomeBottomSheetNavigator(fragment) }
     }
 
-    viewModel { AddViewModel(get()) }
+    viewModel { EditViewModel(get()) }
 
-    scope(named<AddFragment>()) {
-        scoped { (fragment: AddFragment) -> AddNavigator(fragment) }
+    scope(named<EditFragment>()) {
+        scoped { (fragment: EditFragment) -> EditNavigator(fragment) }
     }
 }
