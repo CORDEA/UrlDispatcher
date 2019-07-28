@@ -14,6 +14,9 @@ class HomeBottomSheetViewModel(
     private val _dismiss = MutableLiveData<Unit>()
     val dismiss: LiveData<Unit> = _dismiss
 
+    private val _error = MutableLiveData<ErrorType>()
+    val error: LiveData<ErrorType> = _error
+
     private var disposable: Disposable? = null
     private lateinit var url: String
 
@@ -24,11 +27,18 @@ class HomeBottomSheetViewModel(
     fun delete() {
         disposable = repository.deleteUrl(url)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy { _dismiss.value = Unit }
+                .subscribeBy(
+                        onComplete = { _dismiss.value = Unit },
+                        onError = { _error.value = ErrorType.UNKNOWN }
+                )
     }
 
     override fun onCleared() {
         super.onCleared()
         disposable?.dispose()
+    }
+
+    enum class ErrorType {
+        UNKNOWN
     }
 }

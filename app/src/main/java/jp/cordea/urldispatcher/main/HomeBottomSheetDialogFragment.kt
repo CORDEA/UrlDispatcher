@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
@@ -50,6 +51,16 @@ class HomeBottomSheetDialogFragment : BottomSheetDialogFragment() {
         viewModel.dismiss.observe(this, Observer {
             dismiss()
             mainViewModel.requestUpdate()
+        })
+        viewModel.error.observe(this, Observer {
+            when (it!!) {
+                HomeBottomSheetViewModel.ErrorType.UNKNOWN ->
+                    Toast.makeText(
+                            requireContext(),
+                            R.string.failed_to_delete_url_error_title,
+                            Toast.LENGTH_SHORT
+                    ).show()
+            }
         })
     }
 
