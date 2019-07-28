@@ -39,4 +39,7 @@ object Deps {
     val navigation_safe_args_plugin = "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
 
     const val junit = "junit:junit:4.12"
+
+    const val ext_junit = "androidx.test.ext:junit:1.1.1"
+    const val espresso_core = "androidx.test.espresso:espresso-core:3.2.0"
 }

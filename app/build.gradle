@@ -59,6 +59,9 @@ dependencies {
     implementation Deps.groupie_databinding
 
     testImplementation Deps.junit
+
+    androidTestImplementation Deps.ext_junit
+    androidTestImplementation Deps.espresso_core
 }
 
 tasks.withType(KotlinCompile).all {
