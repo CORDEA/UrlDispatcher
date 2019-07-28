@@ -16,4 +16,7 @@ interface UrlDao {
 
     @Query("SELECT * FROM url")
     fun getUrls(): Maybe<List<Url>>
+
+    @Query("DELETE FROM url WHERE url = :url")
+    fun deleteUrl(url: String)
 }

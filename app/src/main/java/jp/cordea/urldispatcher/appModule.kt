@@ -29,5 +29,7 @@ val appModule = module {
         }
     }
 
+    viewModel { HomeBottomSheetViewModel(get()) }
+
     viewModel { AddViewModel(get()) }
 }

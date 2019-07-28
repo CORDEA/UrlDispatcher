@@ -8,14 +8,25 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.subscribeBy
 import jp.cordea.urldispatcher.R
 import jp.cordea.urldispatcher.add.AddFragmentArgs
 import jp.cordea.urldispatcher.databinding.HomeBottomSheetDialogFragmentBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeBottomSheetDialogFragment : BottomSheetDialogFragment() {
+    private val viewModel: HomeBottomSheetViewModel by viewModel()
 
     private val args by lazy {
         HomeBottomSheetDialogFragmentArgs.fromBundle(requireArguments().getBundle(ARGS_KEY)!!)
+    }
+
+    private var disposable: Disposable? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.init(args.url)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,10 +40,19 @@ class HomeBottomSheetDialogFragment : BottomSheetDialogFragment() {
                     AddFragmentArgs(args.url).toBundle()
             )
         }
-        binding.delete.setOnClickListener {
-        }
+        binding.delete.setOnClickListener { viewModel.delete() }
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        disposable = viewModel.dismiss.subscribeBy { dismiss() }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable?.dispose()
     }
 
     fun show(manager: FragmentManager) {

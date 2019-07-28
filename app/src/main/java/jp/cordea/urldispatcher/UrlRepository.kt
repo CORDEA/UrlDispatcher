@@ -7,4 +7,5 @@ interface UrlRepository {
     fun insertUrl(url: Url): Completable
     fun findUrl(url: String): Maybe<Url>
     fun getUrls(): Maybe<List<Url>>
+    fun deleteUrl(url: String): Completable
 }

@@ -15,4 +15,10 @@ class UrlLocalDataSource(
     override fun findUrl(url: String): Maybe<Url> = urlDao.findUrl(url)
 
     override fun getUrls(): Maybe<List<Url>> = urlDao.getUrls()
+
+    override fun deleteUrl(url: String): Completable =
+            Completable.create {
+                urlDao.deleteUrl(url)
+                it.onComplete()
+            }
 }

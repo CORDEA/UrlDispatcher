@@ -15,4 +15,7 @@ class UrlRepositoryImpl(
 
     override fun getUrls(): Maybe<List<Url>> =
             localDataSource.getUrls().subscribeOn(Schedulers.io())
+
+    override fun deleteUrl(url: String): Completable =
+            localDataSource.deleteUrl(url).subscribeOn(Schedulers.io())
 }
