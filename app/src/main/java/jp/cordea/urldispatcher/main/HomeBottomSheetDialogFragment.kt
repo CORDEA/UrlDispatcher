@@ -4,22 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import jp.cordea.urldispatcher.MainViewModel
-import jp.cordea.urldispatcher.R
-import jp.cordea.urldispatcher.add.AddFragmentArgs
 import jp.cordea.urldispatcher.databinding.HomeBottomSheetDialogFragmentBinding
+import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class HomeBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private val mainViewModel: MainViewModel by sharedViewModel()
     private val viewModel: HomeBottomSheetViewModel by viewModel()
+    private val navigator: HomeBottomSheetNavigator by currentScope.inject { parametersOf(this) }
 
     private val args by lazy {
         HomeBottomSheetDialogFragmentArgs.fromBundle(requireArguments().getBundle(ARGS_KEY)!!)
@@ -35,12 +34,7 @@ class HomeBottomSheetDialogFragment : BottomSheetDialogFragment() {
                 inflater, container, false
         )
 
-        binding.edit.setOnClickListener {
-            findNavController().navigate(
-                    R.id.addFragment,
-                    AddFragmentArgs(args.url).toBundle()
-            )
-        }
+        binding.edit.setOnClickListener { viewModel.edit() }
         binding.delete.setOnClickListener { viewModel.delete() }
 
         return binding.root
@@ -52,16 +46,8 @@ class HomeBottomSheetDialogFragment : BottomSheetDialogFragment() {
             dismiss()
             mainViewModel.requestUpdate()
         })
-        viewModel.error.observe(this, Observer {
-            when (it!!) {
-                HomeBottomSheetViewModel.ErrorType.UNKNOWN ->
-                    Toast.makeText(
-                            requireContext(),
-                            R.string.failed_to_delete_url_error_title,
-                            Toast.LENGTH_SHORT
-                    ).show()
-            }
-        })
+        viewModel.showEditor.observe(this, Observer { navigator.navigateToEdit(it!!) })
+        viewModel.error.observe(this, Observer { navigator.showErrorToast(it!!) })
     }
 
     fun show(manager: FragmentManager) {

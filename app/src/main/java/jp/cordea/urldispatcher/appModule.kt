@@ -33,5 +33,9 @@ val appModule = module {
 
     viewModel { HomeBottomSheetViewModel(get()) }
 
+    scope(named<HomeBottomSheetDialogFragment>()) {
+        scoped { (fragment: HomeBottomSheetDialogFragment) -> HomeBottomSheetNavigator(fragment) }
+    }
+
     viewModel { AddViewModel(get()) }
 }

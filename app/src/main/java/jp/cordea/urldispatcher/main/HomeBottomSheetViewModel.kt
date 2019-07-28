@@ -14,6 +14,9 @@ class HomeBottomSheetViewModel(
     private val _dismiss = MutableLiveData<Unit>()
     val dismiss: LiveData<Unit> = _dismiss
 
+    private val _showEditor = MutableLiveData<String>()
+    val showEditor: LiveData<String> = _showEditor
+
     private val _error = MutableLiveData<ErrorType>()
     val error: LiveData<ErrorType> = _error
 
@@ -22,6 +25,11 @@ class HomeBottomSheetViewModel(
 
     fun init(url: String) {
         this.url = url
+    }
+
+    fun edit() {
+        _showEditor.value = url
+        _dismiss.value = Unit
     }
 
     fun delete() {
