@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import jp.cordea.urldispatcher.R
 import jp.cordea.urldispatcher.add.AddFragmentArgs
@@ -15,7 +14,9 @@ import jp.cordea.urldispatcher.databinding.HomeBottomSheetDialogFragmentBinding
 
 class HomeBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
-    private val args: HomeBottomSheetDialogFragmentArgs by navArgs()
+    private val args by lazy {
+        HomeBottomSheetDialogFragmentArgs.fromBundle(requireArguments().getBundle(ARGS_KEY)!!)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = HomeBottomSheetDialogFragmentBinding.inflate(
@@ -40,10 +41,10 @@ class HomeBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     companion object {
         private const val TAG = "HomeBottomSheetDialogFragment"
-        private const val ARG_KEY = "arg"
+        private const val ARGS_KEY = "args"
 
         fun newInstance(url: String) = HomeBottomSheetDialogFragment().apply {
-            bundleOf(ARG_KEY to HomeBottomSheetDialogFragmentArgs(url).toBundle())
+            arguments = bundleOf(ARGS_KEY to HomeBottomSheetDialogFragmentArgs(url).toBundle())
         }
     }
 }

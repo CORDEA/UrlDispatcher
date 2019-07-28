@@ -11,7 +11,7 @@ class UrlRepositoryImpl(
             localDataSource.insertUrl(url).subscribeOn(Schedulers.io())
 
     override fun findUrl(url: String): Maybe<Url> =
-            localDataSource.findUrl(url)
+            localDataSource.findUrl(url).subscribeOn(Schedulers.io())
 
     override fun getUrls(): Maybe<List<Url>> =
             localDataSource.getUrls().subscribeOn(Schedulers.io())

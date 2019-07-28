@@ -40,7 +40,7 @@ class AddFragment : Fragment() {
         disposable = viewModel.url
                 .subscribeBy {
                     binding.url.editText?.setText(it.url)
-                    binding.description.editText?.setText(it.url)
+                    binding.description.editText?.setText(it.description)
                 }
     }
 
