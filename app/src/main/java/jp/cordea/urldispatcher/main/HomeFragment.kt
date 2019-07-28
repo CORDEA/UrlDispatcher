@@ -7,9 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
 import jp.cordea.urldispatcher.MainViewModel
 import jp.cordea.urldispatcher.databinding.HomeFragmentBinding
 import org.koin.androidx.scope.currentScope
@@ -26,8 +23,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: HomeFragmentBinding
 
-    private var compositeDisposable = CompositeDisposable()
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -37,10 +32,6 @@ class HomeFragment : Fragment() {
         binding.recyclerView.adapter = adapter
         binding.fab.setOnClickListener { navigator.navigateToAdd(null) }
 
-        viewModel.adapterItems
-                .subscribeBy { adapter.update(it) }
-                .addTo(compositeDisposable)
-
         viewModel.refresh()
         return binding.root
     }
@@ -48,11 +39,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.adapterItems.observe(this, Observer { adapter.update(it) })
         mainViewModel.refresh.observe(this, Observer { viewModel.refresh() })
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.clear()
     }
 }

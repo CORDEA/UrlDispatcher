@@ -7,10 +7,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
-import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.subscribeBy
 import jp.cordea.urldispatcher.databinding.FragmentAddBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -19,8 +18,6 @@ class AddFragment : Fragment() {
     private val viewModel: AddViewModel by viewModel()
 
     private lateinit var binding: FragmentAddBinding
-
-    private var disposable: Disposable? = null
 
     private val args: AddFragmentArgs by navArgs()
 
@@ -42,11 +39,11 @@ class AddFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init(args.url)
 
-        disposable = viewModel.url
-                .subscribeBy {
+        viewModel.url
+                .observe(this, Observer {
                     binding.url.editText?.setText(it.url)
                     binding.description.editText?.setText(it.description)
-                }
+                })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -55,11 +52,6 @@ class AddFragment : Fragment() {
             NavHostFragment.findNavController(this).popBackStack()
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        disposable?.dispose()
     }
 
     private fun storeUrl() {

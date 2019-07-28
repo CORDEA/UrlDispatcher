@@ -1,18 +1,18 @@
 package jp.cordea.urldispatcher.main
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.rxkotlin.subscribeBy
 import jp.cordea.urldispatcher.UrlRepository
 
 class HomeBottomSheetViewModel(
         private val repository: UrlRepository
 ) : ViewModel() {
-    private val _dismiss = BehaviorProcessor.create<Unit>()
-    val dismiss: Flowable<Unit> = _dismiss.observeOn(AndroidSchedulers.mainThread())
+    private val _dismiss = MutableLiveData<Unit>()
+    val dismiss: LiveData<Unit> = _dismiss
 
     private var disposable: Disposable? = null
     private lateinit var url: String
@@ -24,7 +24,7 @@ class HomeBottomSheetViewModel(
     fun delete() {
         disposable = repository.deleteUrl(url)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy { _dismiss.onNext(Unit) }
+                .subscribeBy { _dismiss.value = Unit }
     }
 
     override fun onCleared() {
