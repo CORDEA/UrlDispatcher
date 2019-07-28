@@ -17,6 +17,8 @@ val appModule = module {
     single { UrlLocalDataSource(get()) }
     single<UrlRepository> { UrlRepositoryImpl(get()) }
 
+    viewModel { MainViewModel() }
+
     viewModel { HomeViewModel(get()) }
 
     scope(named<HomeFragment>()) {

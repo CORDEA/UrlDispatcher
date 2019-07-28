@@ -10,12 +10,15 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
+import jp.cordea.urldispatcher.MainViewModel
 import jp.cordea.urldispatcher.R
 import jp.cordea.urldispatcher.add.AddFragmentArgs
 import jp.cordea.urldispatcher.databinding.HomeBottomSheetDialogFragmentBinding
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeBottomSheetDialogFragment : BottomSheetDialogFragment() {
+    private val mainViewModel: MainViewModel by sharedViewModel()
     private val viewModel: HomeBottomSheetViewModel by viewModel()
 
     private val args by lazy {
@@ -47,7 +50,10 @@ class HomeBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        disposable = viewModel.dismiss.subscribeBy { dismiss() }
+        disposable = viewModel.dismiss.subscribeBy {
+            dismiss()
+            mainViewModel.requestUpdate()
+        }
     }
 
     override fun onDestroy() {
