@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import jp.cordea.urldispatcher.databinding.FragmentAddBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,6 +24,7 @@ class AddFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        viewModel.init(args.url)
     }
 
     override fun onCreateView(
@@ -32,12 +33,15 @@ class AddFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         binding = FragmentAddBinding.inflate(inflater, container, false)
+        binding.fab.setOnClickListener {
+            storeUrl()
+            findNavController().popBackStack()
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.init(args.url)
 
         viewModel.url
                 .observe(this, Observer {
@@ -48,8 +52,7 @@ class AddFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            storeUrl()
-            NavHostFragment.findNavController(this).popBackStack()
+            findNavController().popBackStack()
         }
         return super.onOptionsItemSelected(item)
     }
