@@ -62,6 +62,8 @@ dependencies {
 
     androidTestImplementation Deps.ext_junit
     androidTestImplementation Deps.espresso_core
+    androidTestImplementation Deps.espresso_contrib
+    androidTestImplementation Deps.espresso_intents
 }
 
 tasks.withType(KotlinCompile).all {

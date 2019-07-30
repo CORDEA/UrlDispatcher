@@ -42,4 +42,6 @@ object Deps {
 
     const val ext_junit = "androidx.test.ext:junit:1.1.1"
     const val espresso_core = "androidx.test.espresso:espresso-core:3.2.0"
+    const val espresso_contrib = "androidx.test.espresso:espresso-contrib:3.2.0"
+    const val espresso_intents = "androidx.test.espresso:espresso-intents:3.2.0"
 }
