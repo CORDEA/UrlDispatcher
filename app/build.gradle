@@ -11,11 +11,10 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "jp.cordea.urldispatcher"
         minSdkVersion 24
-        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "jp.cordea.urldispatcher.TestRunner"
