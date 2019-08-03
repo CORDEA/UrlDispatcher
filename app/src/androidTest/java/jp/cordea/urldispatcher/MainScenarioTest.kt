@@ -71,9 +71,9 @@ class MainScenarioTest {
         onView(withParent(withParent(withId(R.id.description))))
                 .check(matches(withText(description)))
 
-//        onView(withParent(withParent(withId(R.id.url))))
-//                .perform(clearText())
-//                .perform(typeText("$url/2"))
+        onView(withParent(withParent(withId(R.id.url))))
+                .perform(clearText())
+                .perform(typeText("$url/2"))
         onView(withParent(withParent(withId(R.id.description))))
                 .perform(clearText())
                 .perform(typeText("$description/2"))
@@ -83,6 +83,6 @@ class MainScenarioTest {
         onView(withId(R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click()))
 
-        intended(allOf(hasAction(Intent.ACTION_VIEW), hasData(url.toUri())))
+        intended(allOf(hasAction(Intent.ACTION_VIEW), hasData("$url/2".toUri())))
     }
 }
