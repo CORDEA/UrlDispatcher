@@ -10,12 +10,12 @@ class UrlRepositoryImpl(
     override fun insertUrl(url: Url): Completable =
             localDataSource.insertUrl(url).subscribeOn(Schedulers.io())
 
-    override fun findUrl(url: String): Maybe<Url> =
-            localDataSource.findUrl(url).subscribeOn(Schedulers.io())
+    override fun findUrl(id: Long): Maybe<Url> =
+            localDataSource.findUrl(id).subscribeOn(Schedulers.io())
 
     override fun getUrls(): Maybe<List<Url>> =
             localDataSource.getUrls().subscribeOn(Schedulers.io())
 
-    override fun deleteUrl(url: String): Completable =
-            localDataSource.deleteUrl(url).subscribeOn(Schedulers.io())
+    override fun deleteUrl(id: Long): Completable =
+            localDataSource.deleteUrl(id).subscribeOn(Schedulers.io())
 }

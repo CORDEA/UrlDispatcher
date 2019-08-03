@@ -16,18 +16,15 @@
         android:name="jp.cordea.urldispatcher.edit.EditFragment"
         android:label="EditFragment">
         <argument
-            android:name="url"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
+            android:name="id"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/homeBottomSheetDialogFragment"
         android:name="jp.cordea.urldispatcher.home.HomeBottomSheetDialogFragment"
         android:label="HomeBottomSheetDialogFragment">
         <argument
-            android:name="url"
-            app:argType="string"
-            app:nullable="false" />
+            android:name="id"
+            app:argType="long" />
     </fragment>
 </navigation>

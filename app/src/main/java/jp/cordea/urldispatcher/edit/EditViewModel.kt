@@ -25,9 +25,14 @@ class EditViewModel(
     private val _popBackStack = MutableLiveData<Unit>()
     val popBackStack: LiveData<Unit> = _popBackStack
 
-    fun init(url: String?) {
-        url ?: return
-        repository.findUrl(url)
+    private var id: Long = 0L
+
+    fun init(id: Long) {
+        this.id = id
+        if (id <= 0L) {
+            return
+        }
+        repository.findUrl(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy { _url.value = it }
                 .addTo(compositeDisposable)
@@ -38,7 +43,7 @@ class EditViewModel(
             _error.value = ErrorType.EMPTY_URL
             return
         }
-        repository.insertUrl(Url(url, description ?: "", Date().time))
+        repository.insertUrl(Url(id, url, description ?: "", Date().time))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onComplete = { _popBackStack.value = Unit },

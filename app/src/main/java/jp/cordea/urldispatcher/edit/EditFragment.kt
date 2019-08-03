@@ -24,7 +24,7 @@ class EditFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel.init(args.url)
+        viewModel.init(args.id)
     }
 
     override fun onCreateView(

@@ -14,26 +14,26 @@ class HomeBottomSheetViewModel(
     private val _dismiss = MutableLiveData<Unit>()
     val dismiss: LiveData<Unit> = _dismiss
 
-    private val _showEditor = MutableLiveData<String>()
-    val showEditor: LiveData<String> = _showEditor
+    private val _showEditor = MutableLiveData<Long>()
+    val showEditor: LiveData<Long> = _showEditor
 
     private val _error = MutableLiveData<ErrorType>()
     val error: LiveData<ErrorType> = _error
 
     private var disposable: Disposable? = null
-    private lateinit var url: String
+    private var id: Long = 0L
 
-    fun init(url: String) {
-        this.url = url
+    fun init(id: Long) {
+        this.id = id
     }
 
     fun edit() {
-        _showEditor.value = url
+        _showEditor.value = id
         _dismiss.value = Unit
     }
 
     fun delete() {
-        disposable = repository.deleteUrl(url)
+        disposable = repository.deleteUrl(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onComplete = { _dismiss.value = Unit },

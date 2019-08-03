@@ -10,12 +10,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class HomeListItemModel(
+        val id: Long,
         url: String,
         val description: String,
         addedAt: Long
 ) {
     companion object {
-        fun from(url: Url) = HomeListItemModel(url.url, url.description, url.addedAt)
+        fun from(url: Url) = HomeListItemModel(url.id, url.url, url.description, url.addedAt)
     }
 
     private val formatter = SimpleDateFormat("M/d HH:mm", Locale.getDefault())
@@ -42,7 +43,7 @@ class HomeListItem(
             }
         }
         binding.root.setOnLongClickListener {
-            navigator.showBottomSheet(model.uri.toString())
+            navigator.showBottomSheet(model.id)
             true
         }
     }

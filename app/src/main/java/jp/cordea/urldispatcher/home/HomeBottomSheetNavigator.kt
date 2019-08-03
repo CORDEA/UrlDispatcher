@@ -9,10 +9,10 @@ import jp.cordea.urldispatcher.edit.EditFragmentArgs
 class HomeBottomSheetNavigator(
         private val fragment: Fragment
 ) {
-    fun navigateToEdit(url: String) {
+    fun navigateToEdit(id: Long) {
         fragment.findNavController().navigate(
                 R.id.editFragment,
-                EditFragmentArgs(url).toBundle()
+                EditFragmentArgs(id).toBundle()
         )
     }
 

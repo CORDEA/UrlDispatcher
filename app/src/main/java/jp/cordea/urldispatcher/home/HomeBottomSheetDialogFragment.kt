@@ -26,7 +26,7 @@ class HomeBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.init(args.url)
+        viewModel.init(args.id)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -58,8 +58,8 @@ class HomeBottomSheetDialogFragment : BottomSheetDialogFragment() {
         private const val TAG = "HomeBottomSheetDialogFragment"
         private const val ARGS_KEY = "args"
 
-        fun newInstance(url: String) = HomeBottomSheetDialogFragment().apply {
-            arguments = bundleOf(ARGS_KEY to HomeBottomSheetDialogFragmentArgs(url).toBundle())
+        fun newInstance(id: Long) = HomeBottomSheetDialogFragment().apply {
+            arguments = bundleOf(ARGS_KEY to HomeBottomSheetDialogFragmentArgs(id).toBundle())
         }
     }
 }

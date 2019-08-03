@@ -30,7 +30,7 @@ class HomeFragment : Fragment() {
     ): View {
         binding = HomeFragmentBinding.inflate(inflater, container, false)
         binding.recyclerView.adapter = adapter
-        binding.fab.setOnClickListener { navigator.navigateToEdit(null) }
+        binding.fab.setOnClickListener { navigator.navigateToEdit() }
 
         viewModel.refresh()
         return binding.root
