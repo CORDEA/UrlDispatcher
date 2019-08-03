@@ -7,6 +7,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
@@ -39,6 +40,7 @@ class MainScenarioTest {
         onView(allOf(withParent(withId(R.id.toolbar)), withText(R.string.title_main)))
                 .check(matches(isDisplayed()))
 
+        // Add item
         onView(withId(R.id.fab)).perform(click())
 
         onView(allOf(withParent(withId(R.id.toolbar)), withText(R.string.title_add)))
@@ -59,7 +61,24 @@ class MainScenarioTest {
                 .check(matches(withText(0, R.id.description, description)))
 
         onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, longClick()))
+                .check(matches(isSize(1)))
+
+        // Add item
+        onView(withId(R.id.fab)).perform(click())
+
+        onView(withParent(withParent(withId(R.id.url))))
+                .perform(typeText("$url/3"))
+        onView(withParent(withParent(withId(R.id.description))))
+                .perform(typeText("$description/3"))
+
+        onView(withId(R.id.fab)).perform(click())
+
+        onView(withId(R.id.recycler_view))
+                .check(matches(isSize(2)))
+
+        // Edit item
+        onView(withId(R.id.recycler_view))
+                .perform(actionOnItemAtPosition<ViewHolder>(0, longClick()))
 
         onView(withId(R.id.edit)).perform(click())
 
@@ -80,8 +99,48 @@ class MainScenarioTest {
 
         onView(withId(R.id.fab)).perform(click())
 
+        // Add item
+        onView(withId(R.id.fab)).perform(click())
+
+        onView(withParent(withParent(withId(R.id.url))))
+                .perform(typeText("$url/4"))
+        onView(withParent(withParent(withId(R.id.description))))
+                .perform(typeText("$description/4"))
+
+        onView(withId(R.id.fab)).perform(click())
+
         onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click()))
+                .check(matches(isSize(3)))
+
+        // Delete item
+        onView(withId(R.id.recycler_view))
+                .perform(actionOnItemAtPosition<ViewHolder>(2, longClick()))
+
+        onView(withId(R.id.delete)).perform(click())
+
+        onView(withId(R.id.recycler_view))
+                .check(matches(isSize(2)))
+
+        // Add same url item
+        onView(withId(R.id.fab)).perform(click())
+
+        onView(withParent(withParent(withId(R.id.url))))
+                .perform(typeText("$url/3"))
+        onView(withParent(withParent(withId(R.id.description))))
+                .perform(typeText("$description/5"))
+
+        onView(withId(R.id.fab)).perform(click())
+
+        onView(withId(R.id.recycler_view))
+                .check(matches(isSize(2)))
+
+        onView(withId(R.id.recycler_view))
+                .check(matches(withText(1, R.id.title, "$url/3")))
+                .check(matches(withText(1, R.id.description, "$description/5")))
+
+        // Open url
+        onView(withId(R.id.recycler_view))
+                .perform(actionOnItemAtPosition<ViewHolder>(0, click()))
 
         intended(allOf(hasAction(Intent.ACTION_VIEW), hasData("$url/2".toUri())))
     }

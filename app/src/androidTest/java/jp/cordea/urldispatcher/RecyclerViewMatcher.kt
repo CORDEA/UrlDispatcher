@@ -21,3 +21,15 @@ fun withText(
         return viewHolder.itemView.findViewById<TextView>(res).text == text
     }
 }
+
+fun isSize(
+        size: Int
+) = object : BoundedMatcher<View, RecyclerView>(RecyclerView::class.java) {
+    override fun describeTo(description: Description?) {
+    }
+
+    override fun matchesSafely(item: RecyclerView?): Boolean {
+        val view = item ?: return false
+        return view.adapter?.itemCount == size
+    }
+}
