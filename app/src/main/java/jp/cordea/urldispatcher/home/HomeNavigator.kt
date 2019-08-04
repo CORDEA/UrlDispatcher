@@ -15,6 +15,11 @@ class HomeNavigator(
                 .navigate(HomeFragmentDirections.actionHomeFragmentToEditFragment(0L))
     }
 
+    fun navigateToLicense() {
+        NavHostFragment.findNavController(fragment)
+                .navigate(HomeFragmentDirections.actionHomeFragmentToLicenseFragment())
+    }
+
     fun showBottomSheet(id: Long) {
         HomeBottomSheetDialogFragment.newInstance(id)
                 .show(fragment.childFragmentManager)

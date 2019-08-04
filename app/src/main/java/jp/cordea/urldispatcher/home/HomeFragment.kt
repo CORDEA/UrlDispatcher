@@ -55,6 +55,7 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
             when (item.itemId) {
                 R.id.licenses -> {
+                    navigator.navigateToLicense()
                     true
                 }
                 else -> super.onOptionsItemSelected(item)
