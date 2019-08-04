@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.Maybe
+import io.reactivex.Single
 
 @Dao
 interface UrlDao {
@@ -15,7 +16,7 @@ interface UrlDao {
     fun findUrl(id: Long): Maybe<Url>
 
     @Query("SELECT * FROM url")
-    fun getUrls(): Maybe<List<Url>>
+    fun getUrls(): Single<List<Url>>
 
     @Query("DELETE FROM url WHERE id = :id")
     fun deleteUrl(id: Long)

@@ -2,6 +2,7 @@ package jp.cordea.urldispatcher
 
 import io.reactivex.Completable
 import io.reactivex.Maybe
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
 class UrlRepositoryImpl(
@@ -13,7 +14,7 @@ class UrlRepositoryImpl(
     override fun findUrl(id: Long): Maybe<Url> =
             localDataSource.findUrl(id).subscribeOn(Schedulers.io())
 
-    override fun getUrls(): Maybe<List<Url>> =
+    override fun getUrls(): Single<List<Url>> =
             localDataSource.getUrls().subscribeOn(Schedulers.io())
 
     override fun deleteUrl(id: Long): Completable =

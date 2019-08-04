@@ -6,7 +6,7 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
-import io.reactivex.Maybe
+import io.reactivex.Single
 import jp.cordea.urldispatcher.UrlRepository
 import org.junit.Before
 import org.junit.Test
@@ -24,7 +24,7 @@ class HomeViewModelTest {
 
     @Test
     fun refresh() {
-        every { repository.getUrls() } answers { Maybe.just(listOf(mockk(relaxed = true))) }
+        every { repository.getUrls() } answers { Single.just(listOf(mockk(relaxed = true))) }
 
         val observer = mockk<Observer<List<HomeListItemModel>>>(relaxed = true)
         viewModel.adapterItems.observeForever(observer)

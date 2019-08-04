@@ -2,6 +2,7 @@ package jp.cordea.urldispatcher
 
 import io.reactivex.Completable
 import io.reactivex.Maybe
+import io.reactivex.Single
 
 class UrlLocalDataSource(
         private val urlDao: UrlDao
@@ -14,7 +15,7 @@ class UrlLocalDataSource(
 
     override fun findUrl(id: Long): Maybe<Url> = urlDao.findUrl(id)
 
-    override fun getUrls(): Maybe<List<Url>> = urlDao.getUrls()
+    override fun getUrls(): Single<List<Url>> = urlDao.getUrls()
 
     override fun deleteUrl(id: Long): Completable =
             Completable.create {
