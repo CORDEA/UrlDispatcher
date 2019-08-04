@@ -35,16 +35,14 @@ class HomeFragment : Fragment() {
         binding = HomeFragmentBinding.inflate(inflater, container, false)
         binding.recyclerView.adapter = adapter
         binding.fab.setOnClickListener { navigator.navigateToEdit() }
-
-        viewModel.refresh()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.adapterItems.observe(this, Observer { adapter.update(it) })
         mainViewModel.refresh.observe(this, Observer { viewModel.refresh() })
+        viewModel.refresh()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -33,23 +33,13 @@ class EditFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         binding = EditFragmentBinding.inflate(inflater, container, false)
-        binding.fab.setOnClickListener {
-            viewModel.trySaveUrl(
-                    binding.url.editText?.text?.toString(),
-                    binding.description.editText?.text?.toString()
-            )
-        }
+        binding.viewModel = viewModel
+        binding.fab.setOnClickListener { viewModel.trySaveUrl() }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.url
-                .observe(this, Observer {
-                    binding.url.editText?.setText(it.url)
-                    binding.description.editText?.setText(it.description)
-                })
         viewModel.error.observe(this, Observer { navigator.showErrorToast(it!!) })
         viewModel.popBackStack.observe(this, Observer { navigator.finish() })
     }

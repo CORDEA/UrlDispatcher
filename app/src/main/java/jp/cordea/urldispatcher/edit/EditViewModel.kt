@@ -1,5 +1,6 @@
 package jp.cordea.urldispatcher.edit
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,14 +17,14 @@ class EditViewModel(
 ) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
-    private val _url = MutableLiveData<Url>()
-    val url: LiveData<Url> = _url
-
     private val _error = MutableLiveData<ErrorType>()
     val error: LiveData<ErrorType> = _error
 
     private val _popBackStack = MutableLiveData<Unit>()
     val popBackStack: LiveData<Unit> = _popBackStack
+
+    val url = ObservableField<String>()
+    val description = ObservableField<String>()
 
     private var id: Long = 0L
 
@@ -34,11 +35,16 @@ class EditViewModel(
         }
         repository.findUrl(id)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy { _url.value = it }
+                .subscribeBy {
+                    url.set(it.url)
+                    description.set(it.description)
+                }
                 .addTo(compositeDisposable)
     }
 
-    fun trySaveUrl(url: String?, description: String?) {
+    fun trySaveUrl() {
+        val url = url.get()
+        val description = description.get()
         if (url.isNullOrBlank()) {
             _error.value = ErrorType.EMPTY_URL
             return
