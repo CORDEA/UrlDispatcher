@@ -2,15 +2,19 @@ package jp.cordea.urldispatcher.licenses
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import jp.cordea.urldispatcher.databinding.LicenseFragmentBinding
+import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class LicenseFragment : Fragment() {
     private val viewModel: LicenseViewModel by viewModel()
+    private val navigator: LicenseNavigator by currentScope.inject { parametersOf(this) }
 
     private lateinit var binding: LicenseFragmentBinding
 
@@ -36,4 +40,13 @@ class LicenseFragment : Fragment() {
         })
         viewModel.init()
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+            when (item.itemId) {
+                android.R.id.home -> {
+                    navigator.finish()
+                    true
+                }
+                else -> super.onOptionsItemSelected(item)
+            }
 }

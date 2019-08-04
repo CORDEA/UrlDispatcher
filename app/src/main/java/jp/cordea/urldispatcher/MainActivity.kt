@@ -30,6 +30,13 @@ class MainActivity : AppCompatActivity() {
                         setDisplayHomeAsUpEnabled(true)
                     }
                 }
+                R.id.licenseFragment -> {
+                    supportActionBar?.apply {
+                        title = getString(R.string.title_license)
+                        setDisplayHomeAsUpEnabled(true)
+
+                    }
+                }
             }
         }
     }

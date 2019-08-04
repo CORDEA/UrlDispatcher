@@ -54,11 +54,12 @@ class EditFragment : Fragment() {
         viewModel.popBackStack.observe(this, Observer { navigator.finish() })
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            navigator.finish()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+            when (item.itemId) {
+                android.R.id.home -> {
+                    navigator.finish()
+                    true
+                }
+                else -> super.onOptionsItemSelected(item)
+            }
 }

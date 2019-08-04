@@ -4,6 +4,8 @@ import jp.cordea.urldispatcher.edit.EditFragment
 import jp.cordea.urldispatcher.edit.EditNavigator
 import jp.cordea.urldispatcher.edit.EditViewModel
 import jp.cordea.urldispatcher.home.*
+import jp.cordea.urldispatcher.licenses.LicenseFragment
+import jp.cordea.urldispatcher.licenses.LicenseNavigator
 import jp.cordea.urldispatcher.licenses.LicenseViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
@@ -16,7 +18,7 @@ val appModule = module {
     single<UrlRepository> { UrlRepositoryImpl(get()) }
 
     single { LicenseLocalDataSource(get()) }
-    single<LicenseRepository> { LicenseRepositoryImpl(get())}
+    single<LicenseRepository> { LicenseRepositoryImpl(get()) }
 
     viewModel { MainViewModel() }
 
@@ -45,4 +47,8 @@ val appModule = module {
     }
 
     viewModel { LicenseViewModel(get()) }
+
+    scope(named<LicenseFragment>()) {
+        scoped { (fragment: LicenseFragment) -> LicenseNavigator(fragment) }
+    }
 }
