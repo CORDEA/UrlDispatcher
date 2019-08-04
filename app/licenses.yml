@@ -1,11 +1,17 @@
 - artifact: org.jetbrains.kotlin:kotlin-stdlib:+
-  name: org.jetbrains.kotlin:kotlin-stdlib
+  name: Kotlin Stdlib
+  copyrightHolder: JetBrains s.r.o.
+  license: The Apache License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://kotlinlang.org/
+- artifact: org.jetbrains.kotlin:kotlin-stdlib-common:+
+  name: Kotlin Stdlib Common
   copyrightHolder: JetBrains s.r.o.
   license: The Apache License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://kotlinlang.org/
 - artifact: androidx.core:core:+
-  name: Android Support Library compat
+  name: Android Support Library Compat
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
@@ -17,27 +23,21 @@
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: http://developer.android.com/tools/extras/support-library.html
 - artifact: androidx.databinding:databinding-common:+
-  name: Data Binding Base Library
+  name: Databinding Base Library
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/studio
 - artifact: androidx.databinding:databinding-runtime:+
-  name: databinding-runtime
+  name: Databinding Runtime
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
 - artifact: androidx.databinding:databinding-adapters:+
-  name: databinding-adapters
+  name: Databinding Adapters
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-- artifact: org.jetbrains.kotlin:kotlin-stdlib-common:+
-  name: org.jetbrains.kotlin:kotlin-stdlib-common
-  copyrightHolder: JetBrains s.r.o.
-  license: The Apache License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: https://kotlinlang.org/
 - artifact: com.google.android.material:material:+
   name: Material Components for Android
   copyrightHolder: The Android Open Source Project
@@ -53,13 +53,13 @@
 
 # Arch
 - artifact: androidx.arch.core:core-common:+
-  name: Android Arch-Common
+  name: Android Arch Common
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/topic/libraries/architecture/index.html
 - artifact: androidx.arch.core:core-runtime:+
-  name: Android Arch-Runtime
+  name: Android Arch Runtime
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
@@ -67,19 +67,19 @@
 
 # Room
 - artifact: androidx.room:room-runtime:+
-  name: Android Room-Runtime
+  name: Android Room Runtime
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/topic/libraries/architecture/index.html
 - artifact: androidx.room:room-common:+
-  name: Android Room-Common
+  name: Android Room Common
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/topic/libraries/architecture/index.html
 - artifact: androidx.room:room-rxjava2:+
-  name: Android Room RXJava2
+  name: Android Room RxJava2
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
@@ -87,7 +87,7 @@
 
 # Lifecycle
 - artifact: androidx.lifecycle:lifecycle-common:+
-  name: Android Lifecycle-Common
+  name: Android Lifecycle Common
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
@@ -130,20 +130,32 @@
   url: https://developer.android.com/topic/libraries/architecture/index.html
 
 # Navigation
+- artifact: androidx.navigation:navigation-runtime:+
+  name: Android Navigation Runtime
+  copyrightHolder: The Android Open Source Project
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://developer.android.com/topic/libraries/architecture/index.html
 - artifact: androidx.navigation:navigation-common:+
   name: Android Navigation Common
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/topic/libraries/architecture/index.html
-- artifact: androidx.navigation:navigation-ui-ktx:+
-  name: Android Navigation UI Kotlin Extensions
+- artifact: androidx.navigation:navigation-common-ktx:+
+  name: Android Navigation Common Kotlin Extensions
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/topic/libraries/architecture/index.html
-- artifact: androidx.navigation:navigation-runtime:+
-  name: Android Navigation Runtime
+- artifact: androidx.navigation:navigation-ui:+
+  name: Android Navigation UI
+  copyrightHolder: The Android Open Source Project
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://developer.android.com/topic/libraries/architecture/index.html
+- artifact: androidx.navigation:navigation-ui-ktx:+
+  name: Android Navigation UI Kotlin Extensions
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
@@ -166,37 +178,25 @@
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/topic/libraries/architecture/index.html
-- artifact: androidx.navigation:navigation-ui:+
-  name: Android Navigation UI
-  copyrightHolder: The Android Open Source Project
-  license: The Apache Software License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: https://developer.android.com/topic/libraries/architecture/index.html
-- artifact: androidx.navigation:navigation-common-ktx:+
-  name: Android Navigation Common Kotlin Extensions
-  copyrightHolder: The Android Open Source Project
-  license: The Apache Software License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: https://developer.android.com/topic/libraries/architecture/index.html
 
 # Koin
 - artifact: org.koin:koin-core:+
-  name: koin-core
-  copyrightHolder: Arnaud GIULIANI, Laurent BARESSE
-  license: The Apache Software License, Version 2.0
-  url: https://insert-koin.io/
-- artifact: org.koin:koin-androidx-viewmodel:+
-  name: koin-androidx-viewmodel
+  name: Koin Core
   copyrightHolder: Arnaud GIULIANI, Laurent BARESSE
   license: The Apache Software License, Version 2.0
   url: https://insert-koin.io/
 - artifact: org.koin:koin-android:+
-  name: koin-android
+  name: Koin Android
+  copyrightHolder: Arnaud GIULIANI, Laurent BARESSE
+  license: The Apache Software License, Version 2.0
+  url: https://insert-koin.io/
+- artifact: org.koin:koin-androidx-viewmodel:+
+  name: Koin AndroidX ViewModel
   copyrightHolder: Arnaud GIULIANI, Laurent BARESSE
   license: The Apache Software License, Version 2.0
   url: https://insert-koin.io/
 - artifact: org.koin:koin-androidx-scope:+
-  name: koin-androidx-scope
+  name: Koin AndroidX Scope
   copyrightHolder: Arnaud GIULIANI, Laurent BARESSE
   license: The Apache Software License, Version 2.0
   url: https://insert-koin.io/
@@ -229,13 +229,13 @@
   licenseUrl: https://github.com/xwray/groupie/LICENSE
   url: https://github.com/xwray/groupie
 - artifact: com.xwray:groupie-databinding:+
-  name: Groupie databinding
+  name: Groupie Databinding
   copyrightHolder: Lisa Wray
   license: MIT
   licenseUrl: https://github.com/xwray/groupie/LICENSE
   url: https://github.com/xwray/groupie
 - artifact: com.xwray:groupie-kotlin-android-extensions:+
-  name: Groupie android extensions
+  name: Groupie Android Extensions
   copyrightHolder: Lisa Wray
   license: MIT
   licenseUrl: https://github.com/xwray/groupie/LICENSE
@@ -266,7 +266,7 @@
   url: http://mockk.io
   forceGenerate: true
 - artifact: io.mockk:mockk-common:+
-  name: MockK common
+  name: MockK Common
   copyrightHolder: Oleksii Pylypenko
   license: Apache License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0
@@ -275,21 +275,21 @@
 
 # Espresso
 - artifact: androidx.test.espresso:espresso-core:+
-  name: Espresso core
+  name: Espresso Core
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/testing
   forceGenerate: true
 - artifact: androidx.test.espresso:espresso-contrib:+
-  name: Espresso contrib
+  name: Espresso Contrib
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/testing
   forceGenerate: true
 - artifact: androidx.test.espresso:espresso-intents:+
-  name: Espresso intents
+  name: Espresso Intents
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
