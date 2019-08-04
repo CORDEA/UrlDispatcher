@@ -2,12 +2,11 @@ package jp.cordea.urldispatcher.home
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import jp.cordea.urldispatcher.MainViewModel
+import jp.cordea.urldispatcher.R
 import jp.cordea.urldispatcher.databinding.HomeFragmentBinding
 import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -22,6 +21,11 @@ class HomeFragment : Fragment() {
     private val navigator: HomeNavigator by currentScope.inject { parametersOf(this) }
 
     private lateinit var binding: HomeFragmentBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -42,4 +46,17 @@ class HomeFragment : Fragment() {
         viewModel.adapterItems.observe(this, Observer { adapter.update(it) })
         mainViewModel.refresh.observe(this, Observer { viewModel.refresh() })
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.home_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+            when (item.itemId) {
+                R.id.licenses -> {
+                    true
+                }
+                else -> super.onOptionsItemSelected(item)
+            }
 }

@@ -5,6 +5,8 @@
     <string name="title_main">URL Dispatcher</string>
     <string name="title_add">Add URL</string>
 
+    <string name="menu_licenses">Licenses</string>
+
     <string name="bottom_sheet_edit">Edit</string>
     <string name="bottom_sheet_delete">Delete</string>
 
