@@ -61,6 +61,10 @@ dependencies {
     implementation Deps.groupie_databinding
 
     testImplementation Deps.junit
+    testImplementation Deps.robolectric
+    testImplementation Deps.mockk
+    testImplementation Deps.truth
+    testImplementation Deps.ext_junit
 
     androidTestImplementation Deps.ext_junit
     androidTestImplementation Deps.espresso_core
