@@ -1,6 +1,5 @@
 package jp.cordea.urldispatcher.edit
 
-import androidx.lifecycle.Observer
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import io.mockk.*
@@ -26,14 +25,16 @@ class EditViewModelTest {
 
     @Test
     fun init() {
-        every { repository.findUrl(1L) } answers { Maybe.just(mockk()) }
+        val url = mockk<Url> {
+            every { url } returns URL
+            every { description } returns DESCRIPTION
+        }
+        every { repository.findUrl(1L) } answers { Maybe.just(url) }
 
-        val observer = mockk<Observer<Url>>(relaxed = true)
-        viewModel.url.observeForever(observer)
         viewModel.init(1L)
 
-        verify { observer.onChanged(any()) }
-        viewModel.url.removeObserver(observer)
+        assertThat(viewModel.url.get()).isEqualTo(URL)
+        assertThat(viewModel.description.get()).isEqualTo(DESCRIPTION)
     }
 
     @Test
@@ -48,12 +49,14 @@ class EditViewModelTest {
         val slot = slot<Url>()
         every { repository.insertUrl(capture(slot)) } answers { Completable.complete() }
 
-        viewModel.trySaveUrl("http://example.com", "description")
+        viewModel.url.set(URL)
+        viewModel.description.set(DESCRIPTION)
+        viewModel.trySaveUrl()
 
         val url = slot.captured
         assertThat(url.id).isEqualTo(0L)
-        assertThat(url.url).isEqualTo("http://example.com")
-        assertThat(url.description).isEqualTo("description")
+        assertThat(url.url).isEqualTo(URL)
+        assertThat(url.description).isEqualTo(DESCRIPTION)
     }
 
     @Test
@@ -61,7 +64,9 @@ class EditViewModelTest {
         val slot = slot<Url>()
         every { repository.insertUrl(capture(slot)) } answers { Completable.complete() }
 
-        viewModel.trySaveUrl("http://example.com", null)
+        viewModel.url.set(URL)
+        viewModel.description.set(null)
+        viewModel.trySaveUrl()
 
         val url = slot.captured
         assertThat(url.description).isEmpty()
@@ -69,8 +74,15 @@ class EditViewModelTest {
 
     @Test
     fun trySaveUrl_blank() {
-        viewModel.trySaveUrl("  ", null)
+        viewModel.url.set("   ")
+        viewModel.description.set(null)
+        viewModel.trySaveUrl()
 
         verify(exactly = 0) { repository.insertUrl(any()) }
+    }
+
+    companion object {
+        private const val URL = "http://example.com"
+        private const val DESCRIPTION = "description"
     }
 }
