@@ -38,6 +38,8 @@ object Deps {
     val navigation_ui_ktx = "androidx.navigation:navigation-ui-ktx:$nav_version"
     val navigation_safe_args_plugin = "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
 
+    const val license_tools_plugin = "com.cookpad.android.licensetools:license-tools-plugin:1.7.0"
+
     const val junit = "junit:junit:4.12"
     const val robolectric = "org.robolectric:robolectric:4.3"
     const val mockk = "io.mockk:mockk:1.9.3"
