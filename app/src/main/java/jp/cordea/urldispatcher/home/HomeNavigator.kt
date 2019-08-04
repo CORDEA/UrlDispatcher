@@ -4,19 +4,19 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import jp.cordea.urldispatcher.R
 
 class HomeNavigator(
         private val fragment: Fragment
 ) {
     fun navigateToEdit() {
-        NavHostFragment.findNavController(fragment)
+        fragment.findNavController()
                 .navigate(HomeFragmentDirections.actionHomeFragmentToEditFragment(0L))
     }
 
     fun navigateToLicense() {
-        NavHostFragment.findNavController(fragment)
+        fragment.findNavController()
                 .navigate(HomeFragmentDirections.actionHomeFragmentToLicenseFragment())
     }
 
