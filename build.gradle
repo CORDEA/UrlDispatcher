@@ -7,7 +7,7 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.2'
+        classpath 'com.android.tools.build:gradle:3.5.3'
         classpath Deps.kotlin_gradle_plugin
         classpath Deps.navigation_safe_args_plugin
         classpath Deps.license_tools_plugin
