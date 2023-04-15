@@ -13,6 +13,7 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'com.cookpad.android.licensetools'
 
 android {
+    namespace "jp.cordea.urldispatcher"
     compileSdkVersion 29
     defaultConfig {
         applicationId "jp.cordea.urldispatcher"
