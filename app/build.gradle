@@ -1,16 +1,10 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
-
-apply plugin: 'kotlin-kapt'
-
-apply plugin: 'androidx.navigation.safeargs.kotlin'
-
-apply plugin: 'com.cookpad.android.licensetools'
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'com.cookpad.android.licensetools'
+}
 
 android {
     namespace "jp.cordea.urldispatcher"
@@ -46,40 +40,43 @@ android {
 }
 
 dependencies {
-    implementation Deps.kotlin_stdlib
-    implementation Deps.appcompat
-    implementation Deps.core_ktx
-    implementation Deps.constraintlayout
-    implementation Deps.material
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.10"
 
-    implementation Deps.navigation_fragment
-    implementation Deps.navigation_fragment_ktx
-    implementation Deps.navigation_ui
-    implementation Deps.navigation_ui_ktx
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.core:core-ktx:1.10.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+    implementation "com.google.android.material:material:1.8.0"
 
-    implementation Deps.room_runtime
-    implementation Deps.room_rxjava2
-    kapt Deps.room_compiler
+    def nav_version = "2.6.0-alpha09"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
 
-    implementation Deps.rxandroid
-    implementation Deps.rxkotlin
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
+    implementation "io.reactivex.rxjava2:rxkotlin:2.3.0"
 
-    implementation Deps.koin_android
-    implementation Deps.koin_androidx_scope
-    implementation Deps.koin_androidx_viewmodel
+    def koin_version = "2.0.1"
+    implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-androidx-scope:$koin_version"
+    implementation "io.insert-koin:koin-androidx-viewmodel:$koin_version"
 
-    implementation Deps.groupie
-    implementation Deps.groupie_extensions
-    implementation Deps.groupie_databinding
+    def groupie_version = "2.10.1"
+    implementation "com.github.lisawray.groupie:groupie:$groupie_version"
+    implementation "com.github.lisawray.groupie:groupie-kotlin-android-extensions:$groupie_version"
+    implementation "com.github.lisawray.groupie:groupie-databinding:$groupie_version"
 
-    testImplementation Deps.junit
-    testImplementation Deps.robolectric
-    testImplementation Deps.mockk
-    testImplementation Deps.truth
-    testImplementation Deps.ext_junit
+    implementation "androidx.room:room-runtime:2.6.0-alpha01"
+    implementation "androidx.room:room-rxjava2:2.6.0-alpha01"
+    kapt "androidx.room:room-compiler:2.6.0-alpha01"
 
-    androidTestImplementation Deps.ext_junit
-    androidTestImplementation Deps.espresso_core
-    androidTestImplementation Deps.espresso_contrib
-    androidTestImplementation Deps.espresso_intents
+    testImplementation "androidx.test.ext:junit:1.1.5"
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "org.robolectric:robolectric:4.3"
+    testImplementation "io.mockk:mockk:1.9.3"
+    testImplementation "com.google.truth:truth:1.0"
+
+    androidTestImplementation "androidx.test.ext:junit:1.1.5"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:3.5.1"
 }
