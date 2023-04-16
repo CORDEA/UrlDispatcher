@@ -1,5 +1,5 @@
 object Deps {
-    private const val kotlin_version = "1.3.40"
+    private const val kotlin_version = "1.8.0"
     const val kotlin_gradle_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 

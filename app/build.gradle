@@ -36,6 +36,13 @@ android {
     dataBinding {
         enabled = true
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }
 
 dependencies {
@@ -75,10 +82,4 @@ dependencies {
     androidTestImplementation Deps.espresso_core
     androidTestImplementation Deps.espresso_contrib
     androidTestImplementation Deps.espresso_intents
-}
-
-tasks.withType(KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
 }
