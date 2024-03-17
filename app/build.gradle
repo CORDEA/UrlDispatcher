@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace "jp.cordea.urldispatcher"
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "jp.cordea.urldispatcher"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "jp.cordea.urldispatcher.TestRunner"
