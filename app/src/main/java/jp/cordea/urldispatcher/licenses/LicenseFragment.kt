@@ -6,7 +6,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import jp.cordea.urldispatcher.databinding.LicenseFragmentBinding
 import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,9 +23,9 @@ class LicenseFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = LicenseFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -34,19 +33,20 @@ class LicenseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.html.observe(this, Observer {
-            binding.webView.loadData(it, "text/html", "utf-8")
-        })
+        viewModel.html.observe(viewLifecycleOwner) {
+            binding.webView.loadData(it, "text/html", "base64")
+        }
         viewModel.init()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
-            when (item.itemId) {
-                android.R.id.home -> {
-                    navigator.finish()
-                    true
-                }
-                else -> super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            android.R.id.home -> {
+                navigator.finish()
+                true
             }
+
+            else -> super.onOptionsItemSelected(item)
+        }
 }
