@@ -1,10 +1,15 @@
 package jp.cordea.urldispatcher.edit
 
+import android.os.Looper
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.slot
+import io.mockk.verify
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import jp.cordea.urldispatcher.Url
@@ -12,11 +17,13 @@ import jp.cordea.urldispatcher.UrlRepository
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Shadows.shadowOf
 
 @RunWith(AndroidJUnit4::class)
 class EditViewModelTest {
     @MockK
     private lateinit var repository: UrlRepository
+
     @InjectMockKs
     private lateinit var viewModel: EditViewModel
 
@@ -32,6 +39,7 @@ class EditViewModelTest {
         every { repository.findUrl(1L) } answers { Maybe.just(url) }
 
         viewModel.init(1L)
+        shadowOf(Looper.getMainLooper()).idle();
 
         assertThat(viewModel.url.get()).isEqualTo(URL)
         assertThat(viewModel.description.get()).isEqualTo(DESCRIPTION)
@@ -40,6 +48,7 @@ class EditViewModelTest {
     @Test
     fun init_add() {
         viewModel.init(0L)
+        shadowOf(Looper.getMainLooper()).idle();
 
         verify(exactly = 0) { repository.findUrl(any()) }
     }
@@ -52,6 +61,7 @@ class EditViewModelTest {
         viewModel.url.set(URL)
         viewModel.description.set(DESCRIPTION)
         viewModel.trySaveUrl()
+        shadowOf(Looper.getMainLooper()).idle();
 
         val url = slot.captured
         assertThat(url.id).isEqualTo(0L)
@@ -67,6 +77,7 @@ class EditViewModelTest {
         viewModel.url.set(URL)
         viewModel.description.set(null)
         viewModel.trySaveUrl()
+        shadowOf(Looper.getMainLooper()).idle();
 
         val url = slot.captured
         assertThat(url.description).isEmpty()
@@ -77,6 +88,7 @@ class EditViewModelTest {
         viewModel.url.set("   ")
         viewModel.description.set(null)
         viewModel.trySaveUrl()
+        shadowOf(Looper.getMainLooper()).idle();
 
         verify(exactly = 0) { repository.insertUrl(any()) }
     }

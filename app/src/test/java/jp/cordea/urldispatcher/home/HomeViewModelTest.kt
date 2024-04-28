@@ -1,5 +1,6 @@
 package jp.cordea.urldispatcher.home
 
+import android.os.Looper
 import androidx.lifecycle.Observer
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
@@ -11,6 +12,7 @@ import jp.cordea.urldispatcher.UrlRepository
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Shadows.shadowOf
 
 @RunWith(AndroidJUnit4::class)
 class HomeViewModelTest {
@@ -30,6 +32,7 @@ class HomeViewModelTest {
         viewModel.adapterItems.observeForever(observer)
 
         viewModel.refresh()
+        shadowOf(Looper.getMainLooper()).idle();
 
         val slot = slot<List<HomeListItemModel>>()
         verify { observer.onChanged(capture(slot)) }
