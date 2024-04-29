@@ -15,7 +15,7 @@ android {
         applicationId "jp.cordea.urldispatcher"
         minSdk 24
         targetSdk 34
-        versionCode 2
+        versionCode 1
         versionName "1.1.0"
         testInstrumentationRunner "jp.cordea.urldispatcher.TestRunner"
     }
