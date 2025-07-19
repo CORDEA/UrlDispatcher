@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import jp.cordea.urldispatcher.MainViewModel
 import jp.cordea.urldispatcher.databinding.HomeBottomSheetDialogFragmentBinding
@@ -42,12 +41,12 @@ class HomeBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.dismiss.observe(this, Observer {
+        viewModel.dismiss.observe(viewLifecycleOwner) {
             dismiss()
             mainViewModel.requestUpdate()
-        })
-        viewModel.showEditor.observe(this, Observer { navigator.navigateToEdit(it!!) })
-        viewModel.error.observe(this, Observer { navigator.showErrorToast(it!!) })
+        }
+        viewModel.showEditor.observe(viewLifecycleOwner) { it?.let { navigator.navigateToEdit(it) } }
+        viewModel.error.observe(viewLifecycleOwner) { it?.let { navigator.showErrorToast(it) } }
     }
 
     fun show(manager: FragmentManager) {

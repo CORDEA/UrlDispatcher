@@ -3,11 +3,9 @@ package jp.cordea.urldispatcher.edit
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import jp.cordea.urldispatcher.databinding.EditFragmentBinding
 import org.koin.androidx.scope.currentScope
@@ -23,14 +21,13 @@ class EditFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         viewModel.init(args.id)
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = EditFragmentBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
@@ -40,16 +37,7 @@ class EditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.error.observe(this, Observer { navigator.showErrorToast(it!!) })
-        viewModel.popBackStack.observe(this, Observer { navigator.finish() })
+        viewModel.error.observe(viewLifecycleOwner) { it?.let { navigator.showErrorToast(it) } }
+        viewModel.popBackStack.observe(viewLifecycleOwner) { navigator.finish() }
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-            when (item.itemId) {
-                android.R.id.home -> {
-                    navigator.finish()
-                    true
-                }
-                else -> super.onOptionsItemSelected(item)
-            }
 }
