@@ -12,7 +12,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        val binding =
+            DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         setSupportActionBar(binding.toolbar)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -24,17 +25,11 @@ class MainActivity : AppCompatActivity() {
                         setDisplayHomeAsUpEnabled(false)
                     }
                 }
+
                 R.id.editFragment -> {
                     supportActionBar?.apply {
                         title = getString(R.string.title_add)
                         setDisplayHomeAsUpEnabled(true)
-                    }
-                }
-                R.id.licenseFragment -> {
-                    supportActionBar?.apply {
-                        title = getString(R.string.title_license)
-                        setDisplayHomeAsUpEnabled(true)
-
                     }
                 }
             }

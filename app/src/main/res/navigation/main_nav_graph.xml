@@ -11,8 +11,8 @@
             android:id="@+id/action_homeFragment_to_editFragment"
             app:destination="@id/editFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_licenseFragment"
-            app:destination="@id/licenseFragment" />
+            android:id="@+id/action_homeFragment_to_licenseActivity"
+            app:destination="@id/licenseActivity" />
     </fragment>
     <fragment
         android:id="@+id/editFragment"
@@ -30,8 +30,8 @@
             android:name="id"
             app:argType="long" />
     </fragment>
-    <fragment
-        android:id="@+id/licenseFragment"
-        android:name="jp.cordea.urldispatcher.licenses.LicenseFragment"
-        android:label="LicenseFragment" />
+    <activity
+        android:id="@+id/licenseActivity"
+        android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+        android:label="LicenseActivity" />
 </navigation>

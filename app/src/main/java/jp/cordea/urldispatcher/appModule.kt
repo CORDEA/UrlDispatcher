@@ -3,10 +3,14 @@ package jp.cordea.urldispatcher
 import jp.cordea.urldispatcher.edit.EditFragment
 import jp.cordea.urldispatcher.edit.EditNavigator
 import jp.cordea.urldispatcher.edit.EditViewModel
-import jp.cordea.urldispatcher.home.*
-import jp.cordea.urldispatcher.licenses.LicenseFragment
-import jp.cordea.urldispatcher.licenses.LicenseNavigator
-import jp.cordea.urldispatcher.licenses.LicenseViewModel
+import jp.cordea.urldispatcher.home.HomeAdapter
+import jp.cordea.urldispatcher.home.HomeBottomSheetDialogFragment
+import jp.cordea.urldispatcher.home.HomeBottomSheetNavigator
+import jp.cordea.urldispatcher.home.HomeBottomSheetViewModel
+import jp.cordea.urldispatcher.home.HomeFragment
+import jp.cordea.urldispatcher.home.HomeListItemProvider
+import jp.cordea.urldispatcher.home.HomeNavigator
+import jp.cordea.urldispatcher.home.HomeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
@@ -16,9 +20,6 @@ val appModule = module {
     single { get<AppDatabase>().urlDao() }
     single { UrlLocalDataSource(get()) }
     single<UrlRepository> { UrlRepositoryImpl(get()) }
-
-    single { LicenseLocalDataSource(get()) }
-    single<LicenseRepository> { LicenseRepositoryImpl(get()) }
 
     viewModel { MainViewModel() }
 
@@ -44,11 +45,5 @@ val appModule = module {
 
     scope(named<EditFragment>()) {
         scoped { (fragment: EditFragment) -> EditNavigator(fragment) }
-    }
-
-    viewModel { LicenseViewModel(get()) }
-
-    scope(named<LicenseFragment>()) {
-        scoped { (fragment: LicenseFragment) -> LicenseNavigator(fragment) }
     }
 }
