@@ -1,22 +1,15 @@
 package jp.cordea.urldispatcher
 
-import io.reactivex.Completable
-import io.reactivex.Maybe
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.flow.Flow
 
 class UrlRepositoryImpl(
         private val localDataSource: UrlLocalDataSource
 ) : UrlRepository {
-    override fun insertUrl(url: Url): Completable =
-            localDataSource.insertUrl(url).subscribeOn(Schedulers.io())
+    override suspend fun insertUrl(url: Url) = localDataSource.insertUrl(url)
 
-    override fun findUrl(id: Long): Maybe<Url> =
-            localDataSource.findUrl(id).subscribeOn(Schedulers.io())
+    override suspend fun findUrl(id: Long): Url? = localDataSource.findUrl(id)
 
-    override fun getUrls(): Single<List<Url>> =
-            localDataSource.getUrls().subscribeOn(Schedulers.io())
+    override fun getUrls(): Flow<List<Url>> = localDataSource.getUrls()
 
-    override fun deleteUrl(id: Long): Completable =
-            localDataSource.deleteUrl(id).subscribeOn(Schedulers.io())
+    override suspend fun deleteUrl(id: Long) = localDataSource.deleteUrl(id)
 }

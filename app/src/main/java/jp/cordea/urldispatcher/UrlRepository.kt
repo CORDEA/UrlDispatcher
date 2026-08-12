@@ -1,12 +1,10 @@
 package jp.cordea.urldispatcher
 
-import io.reactivex.Completable
-import io.reactivex.Maybe
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 interface UrlRepository {
-    fun insertUrl(url: Url): Completable
-    fun findUrl(id: Long): Maybe<Url>
-    fun getUrls(): Single<List<Url>>
-    fun deleteUrl(id: Long): Completable
+    suspend fun insertUrl(url: Url)
+    suspend fun findUrl(id: Long): Url?
+    fun getUrls(): Flow<List<Url>>
+    suspend fun deleteUrl(id: Long)
 }

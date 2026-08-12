@@ -1,26 +1,35 @@
 package jp.cordea.urldispatcher.edit
 
-import android.os.Looper
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.slot
-import io.mockk.verify
-import io.reactivex.Completable
-import io.reactivex.Maybe
+import jp.cordea.urldispatcher.MainDispatcherRule
 import jp.cordea.urldispatcher.Url
 import jp.cordea.urldispatcher.UrlRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.Shadows.shadowOf
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
 class EditViewModelTest {
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
     @MockK
     private lateinit var repository: UrlRepository
 
@@ -31,37 +40,34 @@ class EditViewModelTest {
     fun setUp() = MockKAnnotations.init(this)
 
     @Test
-    fun init() {
+    fun init() = runTest {
         val url = mockk<Url> {
             every { url } returns URL
             every { description } returns DESCRIPTION
         }
-        every { repository.findUrl(1L) } answers { Maybe.just(url) }
+        coEvery { repository.findUrl(1L) } returns url
 
         viewModel.init(1L)
-        shadowOf(Looper.getMainLooper()).idle();
 
         assertThat(viewModel.url.get()).isEqualTo(URL)
         assertThat(viewModel.description.get()).isEqualTo(DESCRIPTION)
     }
 
     @Test
-    fun init_add() {
+    fun init_add() = runTest {
         viewModel.init(0L)
-        shadowOf(Looper.getMainLooper()).idle();
 
-        verify(exactly = 0) { repository.findUrl(any()) }
+        coVerify(exactly = 0) { repository.findUrl(any()) }
     }
 
     @Test
-    fun trySaveUrl() {
+    fun trySaveUrl() = runTest {
         val slot = slot<Url>()
-        every { repository.insertUrl(capture(slot)) } answers { Completable.complete() }
+        coEvery { repository.insertUrl(capture(slot)) } returns Unit
 
         viewModel.url.set(URL)
         viewModel.description.set(DESCRIPTION)
         viewModel.trySaveUrl()
-        shadowOf(Looper.getMainLooper()).idle();
 
         val url = slot.captured
         assertThat(url.id).isEqualTo(0L)
@@ -70,27 +76,25 @@ class EditViewModelTest {
     }
 
     @Test
-    fun trySaveUrl_description_null() {
+    fun trySaveUrl_description_null() = runTest {
         val slot = slot<Url>()
-        every { repository.insertUrl(capture(slot)) } answers { Completable.complete() }
+        coEvery { repository.insertUrl(capture(slot)) } returns Unit
 
         viewModel.url.set(URL)
         viewModel.description.set(null)
         viewModel.trySaveUrl()
-        shadowOf(Looper.getMainLooper()).idle();
 
         val url = slot.captured
         assertThat(url.description).isEmpty()
     }
 
     @Test
-    fun trySaveUrl_blank() {
+    fun trySaveUrl_blank() = runTest {
         viewModel.url.set("   ")
         viewModel.description.set(null)
         viewModel.trySaveUrl()
-        shadowOf(Looper.getMainLooper()).idle();
 
-        verify(exactly = 0) { repository.insertUrl(any()) }
+        coVerify(exactly = 0) { repository.insertUrl(any()) }
     }
 
     companion object {

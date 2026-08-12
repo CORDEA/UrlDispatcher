@@ -4,19 +4,15 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
+import androidx.lifecycle.viewModelScope
 import jp.cordea.urldispatcher.Url
 import jp.cordea.urldispatcher.UrlRepository
-import java.util.*
+import kotlinx.coroutines.launch
+import java.util.Date
 
 class EditViewModel(
         private val repository: UrlRepository
 ) : ViewModel() {
-    private val compositeDisposable = CompositeDisposable()
-
     private val _error = MutableLiveData<ErrorType>()
     val error: LiveData<ErrorType> = _error
 
@@ -33,13 +29,12 @@ class EditViewModel(
         if (id <= 0L) {
             return
         }
-        repository.findUrl(id)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy {
-                    url.set(it.url)
-                    description.set(it.description)
-                }
-                .addTo(compositeDisposable)
+        viewModelScope.launch {
+            repository.findUrl(id)?.let {
+                url.set(it.url)
+                description.set(it.description)
+            }
+        }
     }
 
     fun trySaveUrl() {
@@ -49,18 +44,14 @@ class EditViewModel(
             _error.value = ErrorType.EMPTY_URL
             return
         }
-        repository.insertUrl(Url(id, url, description ?: "", Date().time))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy(
-                        onComplete = { _popBackStack.value = Unit },
-                        onError = { _error.value = ErrorType.UNKNOWN }
-                )
-                .addTo(compositeDisposable)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
+        viewModelScope.launch {
+            try {
+                repository.insertUrl(Url(id, url, description ?: "", Date().time))
+                _popBackStack.value = Unit
+            } catch (e: Exception) {
+                _error.value = ErrorType.UNKNOWN
+            }
+        }
     }
 
     enum class ErrorType {

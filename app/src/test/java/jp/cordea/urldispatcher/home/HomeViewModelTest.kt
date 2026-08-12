@@ -1,21 +1,35 @@
 package jp.cordea.urldispatcher.home
 
-import android.os.Looper
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
-import io.reactivex.Single
+import io.mockk.mockk
+import io.mockk.slot
+import io.mockk.verify
+import jp.cordea.urldispatcher.MainDispatcherRule
 import jp.cordea.urldispatcher.UrlRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.Shadows.shadowOf
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
 class HomeViewModelTest {
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
     @MockK
     private lateinit var repository: UrlRepository
     @InjectMockKs
@@ -25,14 +39,13 @@ class HomeViewModelTest {
     fun setUp() = MockKAnnotations.init(this)
 
     @Test
-    fun refresh() {
-        every { repository.getUrls() } answers { Single.just(listOf(mockk(relaxed = true))) }
+    fun refresh() = runTest {
+        every { repository.getUrls() } returns flowOf(listOf(mockk(relaxed = true)))
 
         val observer = mockk<Observer<List<HomeListItemModel>>>(relaxed = true)
         viewModel.adapterItems.observeForever(observer)
 
         viewModel.refresh()
-        shadowOf(Looper.getMainLooper()).idle();
 
         val slot = slot<List<HomeListItemModel>>()
         verify { observer.onChanged(capture(slot)) }
