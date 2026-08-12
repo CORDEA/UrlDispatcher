@@ -16,6 +16,18 @@
     <string name="home_new_link">New link</string>
     <string name="home_filter_all">All · %1$d</string>
 
+    <string name="edit_title_new">New link</string>
+    <string name="edit_title_edit">Edit link</string>
+    <string name="edit_action_back">Back</string>
+    <string name="edit_label_url">URL</string>
+    <string name="edit_label_description">Description</string>
+    <string name="edit_label_dispatch_as">Dispatch as</string>
+    <string name="edit_placeholder_description">What should this open?</string>
+    <string name="edit_save">Save link</string>
+    <string name="edit_dispatch_default">Default</string>
+    <string name="edit_dispatch_browser">Browser</string>
+    <string name="edit_dispatch_chooser">Chooser</string>
+
     <string name="add_url_hint">URL</string>
     <string name="add_description_hint">Description</string>
 
