@@ -210,8 +210,8 @@ private fun HomeScreenPreview() {
                             "Custom scheme fallback", "Aug 4, 21:13",
                             android.net.Uri.parse("myapp://product/1204"), DispatchType.DEFAULT),
                     HomeLinkItem(3L, "https", "https://example.com",
-                            "Browser control case", "Aug 4, 21:13",
-                            android.net.Uri.parse("https://example.com"), DispatchType.BROWSER),
+                            "Simple browse case", "Aug 4, 21:13",
+                            android.net.Uri.parse("https://example.com"), DispatchType.DEFAULT),
                     HomeLinkItem(4L, "intent", "intent://scan/#Intent;scheme=zxing;end",
                             "Intent URI — scanner", "Aug 3, 18:02",
                             android.net.Uri.parse("intent://scan"), DispatchType.CHOOSER)

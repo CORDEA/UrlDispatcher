@@ -52,7 +52,7 @@ class EditScreenTest {
                                 isEditMode = true,
                                 url = "https://example.com",
                                 description = "seed",
-                                dispatchType = DispatchType.BROWSER
+                                dispatchType = DispatchType.CHOOSER
                         ),
                         onBack = {},
                         onUrlChange = {},
@@ -108,7 +108,7 @@ class EditScreenTest {
             }
         }
 
-        composeRule.onNodeWithText(context.getString(R.string.edit_dispatch_chooser))
+        composeRule.onNodeWithText(context.getString(R.string.dispatch_type_chooser))
                 .performClick()
 
         assertThat(picked).isEqualTo(DispatchType.CHOOSER)

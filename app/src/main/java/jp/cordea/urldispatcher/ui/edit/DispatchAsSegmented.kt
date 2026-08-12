@@ -74,7 +74,6 @@ private fun Segment(
 
 @StringRes
 private fun DispatchType.labelRes(): Int = when (this) {
-    DispatchType.DEFAULT -> R.string.edit_dispatch_default
-    DispatchType.BROWSER -> R.string.edit_dispatch_browser
-    DispatchType.CHOOSER -> R.string.edit_dispatch_chooser
+    DispatchType.DEFAULT -> R.string.dispatch_type_default
+    DispatchType.CHOOSER -> R.string.dispatch_type_chooser
 }

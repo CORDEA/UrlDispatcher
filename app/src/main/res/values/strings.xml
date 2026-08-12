@@ -24,9 +24,8 @@
     <string name="edit_label_dispatch_as">Dispatch as</string>
     <string name="edit_placeholder_description">What should this open?</string>
     <string name="edit_save">Save link</string>
-    <string name="edit_dispatch_default">Default</string>
-    <string name="edit_dispatch_browser">Browser</string>
-    <string name="edit_dispatch_chooser">Chooser</string>
+    <string name="dispatch_type_default">Default</string>
+    <string name="dispatch_type_chooser">Chooser</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_action_back">Back</string>

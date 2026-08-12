@@ -72,12 +72,12 @@ class EditViewModelTest {
         val vm = newViewModel()
         vm.onUrlChange(URL)
         vm.onDescriptionChange(DESCRIPTION)
-        vm.onDispatchTypeChange(DispatchType.BROWSER)
+        vm.onDispatchTypeChange(DispatchType.CHOOSER)
 
         val state = vm.uiState.value
         assertThat(state.url).isEqualTo(URL)
         assertThat(state.description).isEqualTo(DESCRIPTION)
-        assertThat(state.dispatchType).isEqualTo(DispatchType.BROWSER)
+        assertThat(state.dispatchType).isEqualTo(DispatchType.CHOOSER)
     }
 
     @Test
