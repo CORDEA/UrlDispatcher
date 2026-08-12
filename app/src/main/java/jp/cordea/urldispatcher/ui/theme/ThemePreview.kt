@@ -72,10 +72,10 @@ private fun TypographyPreview() {
                 Text("SAVE LINK", style = MaterialTheme.typography.labelLarge)
                 Text("All · 4", style = MaterialTheme.typography.labelMedium)
                 Text("Aug 4, 21:14", style = MaterialTheme.typography.labelSmall)
-                Text("URL", style = MonoLabelMedium, color = Indigo)
-                Text("HTTPS", style = MonoLabelSmall, color = Indigo)
+                Text("URL", style = MonoLabelMedium, color = MaterialTheme.colorScheme.primary)
+                Text("HTTPS", style = MonoLabelSmall, color = MaterialTheme.colorScheme.primary)
                 Text("myapp://product/1204", style = MonoBody)
-                Text("2.0.0 (140)", style = MonoMeta, color = StoneMid)
+                Text("2.0.0 (140)", style = MonoMeta, color = AppTheme.extended.stoneMid)
             }
         }
     }
