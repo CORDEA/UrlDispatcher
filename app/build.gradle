@@ -19,6 +19,12 @@ android {
         versionCode 1
         versionName "1.1.0"
         testInstrumentationRunner "jp.cordea.urldispatcher.TestRunner"
+
+        def licensesFile = file("licenses.yml")
+        def ossLicenseCount = licensesFile.exists()
+                ? licensesFile.readLines().count { it.startsWith("- artifact:") }
+                : 0
+        buildConfigField "int", "OSS_LICENSE_COUNT", "${ossLicenseCount}"
     }
     buildTypes {
         release {
@@ -32,6 +38,7 @@ android {
     buildFeatures {
         dataBinding true
         compose true
+        buildConfig true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
