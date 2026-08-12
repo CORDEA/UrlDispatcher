@@ -1,5 +1,6 @@
 package jp.cordea.urldispatcher
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -10,5 +11,7 @@ class Url(
         var id: Long,
         val url: String,
         val description: String,
-        val addedAt: Long
+        val addedAt: Long,
+        @ColumnInfo(name = "dispatch_type", defaultValue = "0")
+        val dispatchType: DispatchType = DispatchType.DEFAULT
 )

@@ -6,6 +6,8 @@ import org.koin.dsl.module
 
 val dbModule = module {
     single {
-        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "urlDispatcher").build()
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "urlDispatcher")
+                .addMigrations(MIGRATION_1_2)
+                .build()
     }
 }
