@@ -15,13 +15,18 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,9 +37,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -63,6 +74,8 @@ fun HomeScreen(
     HomeScaffold(
             state = state,
             onSelectScheme = viewModel::selectScheme,
+            onSearchActiveChange = viewModel::setSearchActive,
+            onQueryChange = viewModel::onQueryChange,
             onItemClick = viewModel::onItemClick,
             onItemEdit = onEditLink,
             onItemDelete = viewModel::deleteLink,
@@ -77,6 +90,8 @@ fun HomeScreen(
 internal fun HomeScaffold(
         state: HomeUiState,
         onSelectScheme: (String?) -> Unit,
+        onSearchActiveChange: (Boolean) -> Unit,
+        onQueryChange: (String) -> Unit,
         onItemClick: (HomeLinkItem) -> Unit,
         onItemEdit: (Long) -> Unit,
         onItemDelete: (Long) -> Unit,
@@ -94,7 +109,11 @@ internal fun HomeScaffold(
     ) {
         Column(Modifier.fillMaxSize()) {
             HomeHeader(
-                    onSearchClick = { /* out of scope in v1 */ },
+                    isSearchActive = state.isSearchActive,
+                    query = state.query,
+                    onOpenSearch = { onSearchActiveChange(true) },
+                    onCloseSearch = { onSearchActiveChange(false) },
+                    onQueryChange = onQueryChange,
                     onOverflowClick = onOpenSettings,
                     modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 26.dp)
             )
@@ -105,19 +124,23 @@ internal fun HomeScaffold(
                     onSelect = onSelectScheme,
                     modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp)
             )
-            LazyColumn(
-                    modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 14.dp),
-                    contentPadding = PaddingValues(start = 24.dp, end = 24.dp, bottom = 120.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                items(items = state.items, key = { it.id }) { item ->
-                    LinkCard(
-                            item = item,
-                            onClick = { onItemClick(item) },
-                            onLongClick = { sheetTargetId = item.id }
-                    )
+            if (state.items.isEmpty() && !state.isLoading && state.isFiltered) {
+                EmptyResults(modifier = Modifier.padding(top = 32.dp))
+            } else {
+                LazyColumn(
+                        modifier = Modifier
+                                .fillMaxSize()
+                                .padding(top = 14.dp),
+                        contentPadding = PaddingValues(start = 24.dp, end = 24.dp, bottom = 120.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(items = state.items, key = { it.id }) { item ->
+                        LinkCard(
+                                item = item,
+                                onClick = { onItemClick(item) },
+                                onLongClick = { sheetTargetId = item.id }
+                        )
+                    }
                 }
             }
         }
@@ -148,6 +171,32 @@ internal fun HomeScaffold(
 
 @Composable
 private fun HomeHeader(
+        isSearchActive: Boolean,
+        query: String,
+        onOpenSearch: () -> Unit,
+        onCloseSearch: () -> Unit,
+        onQueryChange: (String) -> Unit,
+        onOverflowClick: () -> Unit,
+        modifier: Modifier = Modifier
+) {
+    if (isSearchActive) {
+        SearchHeader(
+                query = query,
+                onQueryChange = onQueryChange,
+                onClose = onCloseSearch,
+                modifier = modifier
+        )
+    } else {
+        IdleHeader(
+                onSearchClick = onOpenSearch,
+                onOverflowClick = onOverflowClick,
+                modifier = modifier
+        )
+    }
+}
+
+@Composable
+private fun IdleHeader(
         onSearchClick: () -> Unit,
         onOverflowClick: () -> Unit,
         modifier: Modifier = Modifier
@@ -177,8 +226,75 @@ private fun HomeHeader(
 }
 
 @Composable
+private fun SearchHeader(
+        query: String,
+        onQueryChange: (String) -> Unit,
+        onClose: () -> Unit,
+        modifier: Modifier = Modifier
+) {
+    val focusRequester = remember { FocusRequester() }
+    val keyboard = LocalSoftwareKeyboardController.current
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+
+    Row(
+            modifier = modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+    ) {
+        CircleIconButton(
+                icon = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = stringResource(R.string.home_action_search_close),
+                onClick = onClose
+        )
+        val placeholder = stringResource(R.string.home_search_placeholder)
+        BasicTextField(
+                value = query,
+                onValueChange = onQueryChange,
+                singleLine = true,
+                textStyle = LocalTextStyle.current.copy(
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontSize = MaterialTheme.typography.titleMedium.fontSize
+                ),
+                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(onSearch = { keyboard?.hide() }),
+                modifier = Modifier
+                        .padding(start = 12.dp)
+                        .weight(1f)
+                        .focusRequester(focusRequester),
+                decorationBox = { innerTextField ->
+                    if (query.isEmpty()) {
+                        Text(
+                                text = placeholder,
+                                style = MaterialTheme.typography.titleMedium,
+                                color = AppTheme.extended.stoneMid
+                        )
+                    }
+                    innerTextField()
+                }
+        )
+    }
+}
+
+@Composable
+private fun EmptyResults(modifier: Modifier = Modifier) {
+    Box(
+            modifier = modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+    ) {
+        Text(
+                text = stringResource(R.string.home_empty_no_matches),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
+@Composable
 private fun CircleIconButton(
-        icon: androidx.compose.ui.graphics.vector.ImageVector,
+        icon: ImageVector,
         contentDescription: String,
         onClick: () -> Unit,
         modifier: Modifier = Modifier
@@ -224,6 +340,8 @@ private fun HomeScreenPreview() {
         HomeScaffold(
                 state = sample,
                 onSelectScheme = {},
+                onSearchActiveChange = {},
+                onQueryChange = {},
                 onItemClick = {},
                 onItemEdit = {},
                 onItemDelete = {},

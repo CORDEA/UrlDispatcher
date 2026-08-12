@@ -4,8 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import io.mockk.MockKAnnotations
-import io.mockk.coVerify
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import jp.cordea.urldispatcher.DispatchType
@@ -14,8 +14,8 @@ import jp.cordea.urldispatcher.Url
 import jp.cordea.urldispatcher.UrlRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -53,6 +53,9 @@ class HomeViewModelTest {
         assertThat(state.schemes).containsExactly("https", "intent", "myapp").inOrder()
         assertThat(state.items).hasSize(3)
         assertThat(state.selectedScheme).isNull()
+        assertThat(state.query).isEmpty()
+        assertThat(state.isSearchActive).isFalse()
+        assertThat(state.isFiltered).isFalse()
     }
 
     @Test
@@ -82,6 +85,61 @@ class HomeViewModelTest {
     }
 
     @Test
+    fun onQueryChange_filtersByUrlSubstring() = runTest {
+        viewModel.onQueryChange("example.com/a")
+
+        val state = viewModel.uiState.filter { it.query == "example.com/a" }.first()
+
+        assertThat(state.items.map { it.url }).containsExactly("https://example.com/a")
+        assertThat(state.isFiltered).isTrue()
+    }
+
+    @Test
+    fun onQueryChange_filtersByDescriptionSubstring() = runTest {
+        viewModel.onQueryChange("scanner")
+
+        val state = viewModel.uiState.filter { it.query == "scanner" }.first()
+
+        assertThat(state.items.map { it.id }).containsExactly(3L)
+    }
+
+    @Test
+    fun onQueryChange_isCaseInsensitive() = runTest {
+        viewModel.onQueryChange("EXAMPLE")
+
+        val state = viewModel.uiState.filter { it.query == "EXAMPLE" }.first()
+
+        assertThat(state.items).isNotEmpty()
+    }
+
+    @Test
+    fun onQueryChange_andSelectScheme_intersect() = runTest {
+        viewModel.selectScheme("https")
+        viewModel.onQueryChange("nothing-matches")
+
+        val state = viewModel.uiState
+                .filter { it.query == "nothing-matches" && it.selectedScheme == "https" }
+                .first()
+
+        assertThat(state.items).isEmpty()
+        assertThat(state.isFiltered).isTrue()
+    }
+
+    @Test
+    fun setSearchActive_false_clearsQuery() = runTest {
+        viewModel.setSearchActive(true)
+        viewModel.onQueryChange("anything")
+        viewModel.uiState.filter { it.query == "anything" }.first()
+
+        viewModel.setSearchActive(false)
+
+        val state = viewModel.uiState
+                .filter { !it.isSearchActive && it.query.isEmpty() }
+                .first()
+        assertThat(state.items).hasSize(3)
+    }
+
+    @Test
     fun onItemClick_emitsOpenLinkEvent() = runTest {
         val item = viewModel.uiState.filter { !it.isLoading }.first().items.first()
 
@@ -103,9 +161,9 @@ class HomeViewModelTest {
 
     companion object {
         private val SEED = listOf(
-                Url(1L, "https://example.com/a", "a", 1_700_000_000_000L, DispatchType.DEFAULT),
-                Url(2L, "myapp://x", "b", 1_700_000_001_000L, DispatchType.DEFAULT),
-                Url(3L, "intent://y#Intent;end", "c", 1_700_000_002_000L, DispatchType.CHOOSER)
+                Url(1L, "https://example.com/a", "landing page", 1_700_000_000_000L, DispatchType.DEFAULT),
+                Url(2L, "myapp://x", "custom scheme sample", 1_700_000_001_000L, DispatchType.DEFAULT),
+                Url(3L, "intent://y#Intent;end", "intent scanner", 1_700_000_002_000L, DispatchType.CHOOSER)
         )
     }
 }

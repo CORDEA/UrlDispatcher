@@ -7,6 +7,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
 import jp.cordea.urldispatcher.DispatchType
@@ -56,6 +57,8 @@ class HomeScreenTest {
                 HomeScaffold(
                         state = sample,
                         onSelectScheme = {},
+                        onSearchActiveChange = {},
+                        onQueryChange = {},
                         onItemClick = {},
                         onItemEdit = {},
                         onItemDelete = {},
@@ -79,6 +82,8 @@ class HomeScreenTest {
                 HomeScaffold(
                         state = sample,
                         onSelectScheme = {},
+                        onSearchActiveChange = {},
+                        onQueryChange = {},
                         onItemClick = {},
                         onItemEdit = {},
                         onItemDelete = {},
@@ -101,6 +106,8 @@ class HomeScreenTest {
                 HomeScaffold(
                         state = sample,
                         onSelectScheme = {},
+                        onSearchActiveChange = {},
+                        onQueryChange = {},
                         onItemClick = {},
                         onItemEdit = {},
                         onItemDelete = {},
@@ -125,6 +132,8 @@ class HomeScreenTest {
                 HomeScaffold(
                         state = sample,
                         onSelectScheme = { lastSelection = it },
+                        onSearchActiveChange = {},
+                        onQueryChange = {},
                         onItemClick = {},
                         onItemEdit = {},
                         onItemDelete = {},
@@ -137,5 +146,105 @@ class HomeScreenTest {
         composeRule.onNodeWithText("myapp").performClick()
 
         assertThat(lastSelection).isEqualTo("myapp")
+    }
+
+    @Test
+    fun searchIconClick_activatesSearchMode() {
+        var active: Boolean? = null
+        composeRule.setContent {
+            UrlDispatcherTheme {
+                HomeScaffold(
+                        state = sample,
+                        onSelectScheme = {},
+                        onSearchActiveChange = { active = it },
+                        onQueryChange = {},
+                        onItemClick = {},
+                        onItemEdit = {},
+                        onItemDelete = {},
+                        onNewLinkClick = {},
+                        onOpenSettings = {}
+                )
+            }
+        }
+
+        composeRule.onNodeWithContentDescription(context.getString(R.string.home_action_search))
+                .performClick()
+
+        assertThat(active).isTrue()
+    }
+
+    @Test
+    fun searchActive_showsFieldAndInputForwardsToCallback() {
+        val captured = mutableListOf<String>()
+        composeRule.setContent {
+            UrlDispatcherTheme {
+                HomeScaffold(
+                        state = sample.copy(isSearchActive = true, query = ""),
+                        onSelectScheme = {},
+                        onSearchActiveChange = {},
+                        onQueryChange = { captured += it },
+                        onItemClick = {},
+                        onItemEdit = {},
+                        onItemDelete = {},
+                        onNewLinkClick = {},
+                        onOpenSettings = {}
+                )
+            }
+        }
+
+        composeRule.onNodeWithText(context.getString(R.string.home_search_placeholder))
+                .assertIsDisplayed()
+        composeRule.onNodeWithText(context.getString(R.string.home_search_placeholder))
+                .performTextInput("ex")
+
+        assertThat(captured).contains("ex")
+    }
+
+    @Test
+    fun searchActive_closeClearsSearchState() {
+        var active: Boolean? = null
+        composeRule.setContent {
+            UrlDispatcherTheme {
+                HomeScaffold(
+                        state = sample.copy(isSearchActive = true, query = "abc"),
+                        onSelectScheme = {},
+                        onSearchActiveChange = { active = it },
+                        onQueryChange = {},
+                        onItemClick = {},
+                        onItemEdit = {},
+                        onItemDelete = {},
+                        onNewLinkClick = {},
+                        onOpenSettings = {}
+                )
+            }
+        }
+
+        composeRule.onNodeWithContentDescription(
+                context.getString(R.string.home_action_search_close)
+        ).performClick()
+
+        assertThat(active).isFalse()
+    }
+
+    @Test
+    fun emptyFiltered_showsNoMatches() {
+        composeRule.setContent {
+            UrlDispatcherTheme {
+                HomeScaffold(
+                        state = sample.copy(items = emptyList(), query = "zzz"),
+                        onSelectScheme = {},
+                        onSearchActiveChange = {},
+                        onQueryChange = {},
+                        onItemClick = {},
+                        onItemEdit = {},
+                        onItemDelete = {},
+                        onNewLinkClick = {},
+                        onOpenSettings = {}
+                )
+            }
+        }
+
+        composeRule.onNodeWithText(context.getString(R.string.home_empty_no_matches))
+                .assertIsDisplayed()
     }
 }

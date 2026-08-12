@@ -26,25 +26,32 @@ class HomeViewModel(
         private val repository: UrlRepository
 ) : ViewModel() {
     private val selectedSchemeFlow = MutableStateFlow<String?>(null)
+    private val queryFlow = MutableStateFlow("")
+    private val isSearchActiveFlow = MutableStateFlow(false)
 
     private val eventsChannel = Channel<HomeEvent>(Channel.BUFFERED)
     val events = eventsChannel.receiveAsFlow()
 
     val uiState: StateFlow<HomeUiState> = combine(
             repository.getUrls().catch { emit(emptyList()) },
-            selectedSchemeFlow
-    ) { urls, selected ->
+            selectedSchemeFlow,
+            queryFlow,
+            isSearchActiveFlow
+    ) { urls, selected, query, isSearchActive ->
         val items = urls.map { it.toItem() }
         val schemes = items.map { it.scheme }.distinct().sorted()
         val resolvedSelection = selected?.takeIf { it in schemes }
-        val filtered = if (resolvedSelection == null) items
-        else items.filter { it.scheme == resolvedSelection }
+        val filtered = items
+                .let { if (resolvedSelection == null) it else it.filter { i -> i.scheme == resolvedSelection } }
+                .let { if (query.isBlank()) it else it.filter(matcherFor(query)) }
         HomeUiState(
                 isLoading = false,
                 items = filtered,
                 schemes = schemes,
                 selectedScheme = resolvedSelection,
-                totalCount = items.size
+                totalCount = items.size,
+                query = query,
+                isSearchActive = isSearchActive
         )
     }.stateIn(
             scope = viewModelScope,
@@ -56,6 +63,15 @@ class HomeViewModel(
         selectedSchemeFlow.value = scheme
     }
 
+    fun setSearchActive(active: Boolean) {
+        isSearchActiveFlow.value = active
+        if (!active) queryFlow.value = ""
+    }
+
+    fun onQueryChange(query: String) {
+        queryFlow.value = query
+    }
+
     fun onItemClick(item: HomeLinkItem) {
         viewModelScope.launch { eventsChannel.send(HomeEvent.OpenLink(item)) }
     }
@@ -64,6 +80,14 @@ class HomeViewModel(
         viewModelScope.launch {
             runCatching { repository.deleteUrl(id) }
         }
+    }
+}
+
+private fun matcherFor(query: String): (HomeLinkItem) -> Boolean {
+    val needle = query.trim()
+    return { item ->
+        item.url.contains(needle, ignoreCase = true) ||
+                item.description.contains(needle, ignoreCase = true)
     }
 }
 

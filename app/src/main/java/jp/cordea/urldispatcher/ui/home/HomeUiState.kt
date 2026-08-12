@@ -8,8 +8,13 @@ data class HomeUiState(
         val items: List<HomeLinkItem> = emptyList(),
         val schemes: List<String> = emptyList(),
         val selectedScheme: String? = null,
-        val totalCount: Int = 0
-)
+        val totalCount: Int = 0,
+        val query: String = "",
+        val isSearchActive: Boolean = false
+) {
+    val isFiltered: Boolean
+        get() = selectedScheme != null || query.isNotBlank()
+}
 
 data class HomeLinkItem(
         val id: Long,
