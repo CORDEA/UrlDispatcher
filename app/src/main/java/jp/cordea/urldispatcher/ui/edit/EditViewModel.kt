@@ -1,6 +1,5 @@
 package jp.cordea.urldispatcher.ui.edit
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jp.cordea.urldispatcher.DispatchType
@@ -17,10 +16,8 @@ import java.util.Date
 
 class EditViewModel(
         private val repository: UrlRepository,
-        savedStateHandle: SavedStateHandle
+        private val id: Long
 ) : ViewModel() {
-    private val id: Long = savedStateHandle.get<Long>(ID_KEY) ?: 0L
-
     private val _uiState = MutableStateFlow(EditUiState(isEditMode = id > 0L))
     val uiState: StateFlow<EditUiState> = _uiState.asStateFlow()
 
@@ -86,9 +83,5 @@ class EditViewModel(
                     onFailure = { eventsChannel.send(EditEvent.Error(EditError.SAVE_FAILED)) }
             )
         }
-    }
-
-    companion object {
-        const val ID_KEY = "id"
     }
 }

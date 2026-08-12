@@ -2,9 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.plugin.compose'
-    id 'kotlin-kapt'
     id 'com.google.devtools.ksp'
-    id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.android.gms.oss-licenses-plugin'
 }
 
@@ -36,7 +34,6 @@ android {
         abortOnError false
     }
     buildFeatures {
-        dataBinding true
         compose true
         buildConfig true
     }
@@ -62,20 +59,11 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.2.1"
     implementation "com.google.android.material:material:1.12.0"
 
-    implementation "androidx.navigation:navigation-fragment-ktx:2.9.8"
-    implementation "androidx.navigation:navigation-ui-ktx:2.9.8"
-
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0"
 
-    def koin_version = "2.0.1"
+    def koin_version = "3.5.6"
     implementation "io.insert-koin:koin-android:$koin_version"
-    implementation "io.insert-koin:koin-androidx-scope:$koin_version"
-    implementation "io.insert-koin:koin-androidx-viewmodel:$koin_version"
-
-    def groupie_version = "2.10.1"
-    implementation "com.github.lisawray.groupie:groupie:$groupie_version"
-    implementation "com.github.lisawray.groupie:groupie-kotlin-android-extensions:$groupie_version"
-    implementation "com.github.lisawray.groupie:groupie-databinding:$groupie_version"
+    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
 
     implementation "androidx.room:room-runtime:2.8.4"
     implementation "androidx.room:room-ktx:2.8.4"
@@ -103,10 +91,8 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.11.0"
     testImplementation "androidx.arch.core:core-testing:2.2.0"
 
+    androidTestImplementation "androidx.test:runner:1.6.2"
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.5.1"
-    androidTestImplementation "androidx.test.espresso:espresso-intents:3.5.1"
     androidTestImplementation "androidx.room:room-testing:2.8.4"
     androidTestImplementation "com.google.truth:truth:1.4.2"
     androidTestImplementation platform("androidx.compose:compose-bom:2026.06.01")

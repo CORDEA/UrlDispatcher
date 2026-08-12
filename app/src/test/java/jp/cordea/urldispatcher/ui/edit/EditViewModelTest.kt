@@ -1,7 +1,6 @@
 package jp.cordea.urldispatcher.ui.edit
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.SavedStateHandle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import io.mockk.MockKAnnotations
@@ -37,8 +36,7 @@ class EditViewModelTest {
     @Before
     fun setUp() = MockKAnnotations.init(this)
 
-    private fun newViewModel(id: Long = 0L) =
-            EditViewModel(repository, SavedStateHandle(mapOf(EditViewModel.ID_KEY to id)))
+    private fun newViewModel(id: Long = 0L) = EditViewModel(repository, id)
 
     @Test
     fun create_mode_startsEmpty() = runTest {

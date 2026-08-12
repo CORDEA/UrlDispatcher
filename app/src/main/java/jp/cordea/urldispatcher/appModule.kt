@@ -1,19 +1,9 @@
 package jp.cordea.urldispatcher
 
-import jp.cordea.urldispatcher.edit.EditFragment
-import jp.cordea.urldispatcher.edit.EditNavigator
-import jp.cordea.urldispatcher.edit.EditViewModel
-import jp.cordea.urldispatcher.home.HomeAdapter
-import jp.cordea.urldispatcher.home.HomeBottomSheetDialogFragment
-import jp.cordea.urldispatcher.home.HomeBottomSheetNavigator
-import jp.cordea.urldispatcher.home.HomeBottomSheetViewModel
-import jp.cordea.urldispatcher.home.HomeFragment
-import jp.cordea.urldispatcher.home.HomeListItemProvider
-import jp.cordea.urldispatcher.home.HomeNavigator
-import jp.cordea.urldispatcher.home.HomeViewModel
+import jp.cordea.urldispatcher.ui.edit.EditViewModel
+import jp.cordea.urldispatcher.ui.home.HomeViewModel
+import jp.cordea.urldispatcher.ui.settings.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.parameter.parametersOf
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val appModule = module {
@@ -21,29 +11,7 @@ val appModule = module {
     single { UrlLocalDataSource(get()) }
     single<UrlRepository> { UrlRepositoryImpl(get()) }
 
-    viewModel { MainViewModel() }
-
     viewModel { HomeViewModel(get()) }
-
-    scope(named<HomeFragment>()) {
-        scoped { (fragment: HomeFragment) -> HomeNavigator(fragment) }
-        scoped { (fragment: HomeFragment) ->
-            HomeListItemProvider(get { parametersOf(fragment) })
-        }
-        scoped { (fragment: HomeFragment) ->
-            HomeAdapter(get { parametersOf(fragment) })
-        }
-    }
-
-    viewModel { HomeBottomSheetViewModel(get()) }
-
-    scope(named<HomeBottomSheetDialogFragment>()) {
-        scoped { (fragment: HomeBottomSheetDialogFragment) -> HomeBottomSheetNavigator(fragment) }
-    }
-
-    viewModel { EditViewModel(get()) }
-
-    scope(named<EditFragment>()) {
-        scoped { (fragment: EditFragment) -> EditNavigator(fragment) }
-    }
+    viewModel { (id: Long) -> EditViewModel(get(), id) }
+    viewModel { SettingsViewModel() }
 }
