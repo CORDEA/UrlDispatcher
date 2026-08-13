@@ -59,6 +59,7 @@ fun EditScreen(
                 is EditEvent.Error -> {
                     val messageRes = when (event.kind) {
                         EditError.EMPTY_URL -> R.string.url_empty_error_title
+                        EditError.DUPLICATE -> R.string.duplicate_url_error_title
                         EditError.SAVE_FAILED -> R.string.failed_to_save_url_error_title
                     }
                     Toast.makeText(context, messageRes, Toast.LENGTH_SHORT).show()

@@ -18,5 +18,6 @@ sealed interface EditEvent {
 
 enum class EditError {
     EMPTY_URL,
+    DUPLICATE,
     SAVE_FAILED
 }

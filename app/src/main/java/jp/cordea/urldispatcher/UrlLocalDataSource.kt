@@ -7,6 +7,8 @@ class UrlLocalDataSource(
 ) : UrlRepository {
     override suspend fun insertUrl(url: Url) = urlDao.insertUrl(url)
 
+    override suspend fun updateUrl(url: Url) = urlDao.updateUrl(url)
+
     override suspend fun findUrl(id: Long): Url? = urlDao.findUrl(id)
 
     override fun getUrls(): Flow<List<Url>> = urlDao.getUrls()

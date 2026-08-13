@@ -1,5 +1,6 @@
 package jp.cordea.urldispatcher.ui.edit
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jp.cordea.urldispatcher.DispatchType
@@ -66,21 +67,27 @@ class EditViewModel(
         if (current.isSaving) return
         _uiState.update { it.copy(isSaving = true) }
         viewModelScope.launch {
+            val entity = Url(
+                    id = id,
+                    url = current.url,
+                    description = current.description,
+                    addedAt = Date().time,
+                    dispatchType = current.dispatchType
+            )
             val result = runCatching {
-                repository.insertUrl(
-                        Url(
-                                id = id,
-                                url = current.url,
-                                description = current.description,
-                                addedAt = Date().time,
-                                dispatchType = current.dispatchType
-                        )
-                )
+                if (id > 0L) repository.updateUrl(entity) else repository.insertUrl(entity)
             }
             _uiState.update { it.copy(isSaving = false) }
             result.fold(
                     onSuccess = { eventsChannel.send(EditEvent.Saved) },
-                    onFailure = { eventsChannel.send(EditEvent.Error(EditError.SAVE_FAILED)) }
+                    onFailure = { error ->
+                        val kind = if (error is SQLiteConstraintException) {
+                            EditError.DUPLICATE
+                        } else {
+                            EditError.SAVE_FAILED
+                        }
+                        eventsChannel.send(EditEvent.Error(kind))
+                    }
             )
         }
     }

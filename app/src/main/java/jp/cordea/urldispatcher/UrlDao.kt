@@ -4,12 +4,16 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UrlDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertUrl(url: Url)
+
+    @Update(onConflict = OnConflictStrategy.ABORT)
+    suspend fun updateUrl(url: Url)
 
     @Query("SELECT * FROM url WHERE id = :id LIMIT 1")
     suspend fun findUrl(id: Long): Url?

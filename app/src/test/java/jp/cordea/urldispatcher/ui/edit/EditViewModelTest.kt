@@ -1,5 +1,6 @@
 package jp.cordea.urldispatcher.ui.edit
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
@@ -122,6 +123,41 @@ class EditViewModelTest {
         val event = vm.events.first()
 
         assertThat(event).isEqualTo(EditEvent.Error(EditError.SAVE_FAILED))
+    }
+
+    @Test
+    fun save_uniqueConstraintViolation_emitsDuplicateError() = runTest {
+        coEvery { repository.insertUrl(any()) } throws
+                SQLiteConstraintException("UNIQUE constraint failed")
+        val vm = newViewModel()
+        vm.onUrlChange(URL)
+
+        vm.save()
+        val event = vm.events.first()
+
+        assertThat(event).isEqualTo(EditEvent.Error(EditError.DUPLICATE))
+    }
+
+    @Test
+    fun save_editMode_callsUpdateNotInsert() = runTest {
+        coEvery { repository.findUrl(7L) } returns Url(
+                id = 7L,
+                url = URL,
+                description = DESCRIPTION,
+                addedAt = 1_700_000_000_000L,
+                dispatchType = DispatchType.CHOOSER
+        )
+        val slot = slot<Url>()
+        coEvery { repository.updateUrl(capture(slot)) } returns Unit
+        val vm = newViewModel(id = 7L)
+        vm.uiState.filter { !it.isLoading && it.url.isNotEmpty() }.first()
+
+        vm.save()
+        val event = vm.events.first()
+
+        assertThat(event).isEqualTo(EditEvent.Saved)
+        coVerify(exactly = 0) { repository.insertUrl(any()) }
+        assertThat(slot.captured.id).isEqualTo(7L)
     }
 
     companion object {

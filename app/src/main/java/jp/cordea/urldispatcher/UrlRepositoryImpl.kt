@@ -7,6 +7,8 @@ class UrlRepositoryImpl(
 ) : UrlRepository {
     override suspend fun insertUrl(url: Url) = localDataSource.insertUrl(url)
 
+    override suspend fun updateUrl(url: Url) = localDataSource.updateUrl(url)
+
     override suspend fun findUrl(id: Long): Url? = localDataSource.findUrl(id)
 
     override fun getUrls(): Flow<List<Url>> = localDataSource.getUrls()
