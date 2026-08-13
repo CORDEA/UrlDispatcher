@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "eddc1ca7fbf8dbec7756e922ef8836ae",
+    "identityHash": "aa7d85eb3015c591fede9dd106c32754",
     "entities": [
       {
         "tableName": "Url",
@@ -48,20 +48,21 @@
         },
         "indices": [
           {
-            "name": "index_Url_url",
+            "name": "index_Url_url_dispatch_type",
             "unique": true,
             "columnNames": [
-              "url"
+              "url",
+              "dispatch_type"
             ],
             "orders": [],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Url_url` ON `${TABLE_NAME}` (`url`)"
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Url_url_dispatch_type` ON `${TABLE_NAME}` (`url`, `dispatch_type`)"
           }
         ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'eddc1ca7fbf8dbec7756e922ef8836ae')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'aa7d85eb3015c591fede9dd106c32754')"
     ]
   }
 }

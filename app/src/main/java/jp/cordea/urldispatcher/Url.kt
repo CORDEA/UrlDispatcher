@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(indices = [Index(value = ["url"], unique = true)])
+@Entity(indices = [Index(value = ["url", "dispatch_type"], unique = true)])
 class Url(
         @PrimaryKey(autoGenerate = true)
         var id: Long,

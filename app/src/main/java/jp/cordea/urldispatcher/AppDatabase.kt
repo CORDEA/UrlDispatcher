@@ -15,5 +15,10 @@ abstract class AppDatabase : RoomDatabase() {
 val MIGRATION_1_2 = object : Migration(1, 2) {
     override fun migrate(db: SupportSQLiteDatabase) {
         db.execSQL("ALTER TABLE `Url` ADD COLUMN `dispatch_type` INTEGER NOT NULL DEFAULT 0")
+        db.execSQL("DROP INDEX IF EXISTS `index_Url_url`")
+        db.execSQL(
+                "CREATE UNIQUE INDEX IF NOT EXISTS `index_Url_url_dispatch_type` " +
+                        "ON `Url` (`url`, `dispatch_type`)"
+        )
     }
 }
