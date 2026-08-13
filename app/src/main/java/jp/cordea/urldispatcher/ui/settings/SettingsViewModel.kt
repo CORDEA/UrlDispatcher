@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.asStateFlow
 class SettingsViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(
             SettingsUiState(
-                    licenseCount = BuildConfig.OSS_LICENSE_COUNT,
                     versionName = BuildConfig.VERSION_NAME,
                     versionCode = BuildConfig.VERSION_CODE
             )

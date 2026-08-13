@@ -21,13 +21,12 @@ class SettingsScreenTest {
         get() = InstrumentationRegistry.getInstrumentation().targetContext
 
     private val sample = SettingsUiState(
-            licenseCount = 12,
             versionName = "2.0.0",
             versionCode = 140
     )
 
     @Test
-    fun rendersTitleLicenseCountAndVersion() {
+    fun rendersTitleLicensesAndVersion() {
         composeRule.setContent {
             UrlDispatcherTheme {
                 SettingsScaffold(state = sample, onBack = {}, onOpenLicenses = {})
@@ -36,7 +35,7 @@ class SettingsScreenTest {
 
         composeRule.onNodeWithText(context.getString(R.string.settings_title)).assertIsDisplayed()
         composeRule.onNodeWithText(
-                context.resources.getQuantityString(R.plurals.settings_licenses_subtitle, 12, 12)
+                context.getString(R.string.settings_licenses_title)
         ).assertIsDisplayed()
         composeRule.onNodeWithText(
                 context.getString(R.string.settings_version_value, "2.0.0", 140)
@@ -71,22 +70,5 @@ class SettingsScreenTest {
                 .performClick()
 
         assertThat(backed).isTrue()
-    }
-
-    @Test
-    fun singleLicense_showsSingularCopy() {
-        composeRule.setContent {
-            UrlDispatcherTheme {
-                SettingsScaffold(
-                        state = sample.copy(licenseCount = 1),
-                        onBack = {},
-                        onOpenLicenses = {}
-                )
-            }
-        }
-
-        composeRule.onNodeWithText(
-                context.resources.getQuantityString(R.plurals.settings_licenses_subtitle, 1, 1)
-        ).assertIsDisplayed()
     }
 }

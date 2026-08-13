@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,8 +28,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -84,7 +85,6 @@ internal fun SettingsScaffold(
                     color = AppTheme.extended.stoneMid
             )
             AboutCard(
-                    licenseCount = state.licenseCount,
                     versionName = state.versionName,
                     versionCode = state.versionCode,
                     onOpenLicenses = onOpenLicenses
@@ -126,7 +126,6 @@ private fun SettingsTopBar(onBack: () -> Unit) {
 
 @Composable
 private fun AboutCard(
-        licenseCount: Int,
         versionName: String,
         versionCode: Int,
         onOpenLicenses: () -> Unit
@@ -135,12 +134,10 @@ private fun AboutCard(
     Column(
             modifier = Modifier
                     .fillMaxWidth()
+                    .clip(shape)
                     .background(MaterialTheme.colorScheme.surfaceContainer, shape)
     ) {
-        LicensesRow(
-                licenseCount = licenseCount,
-                onClick = onOpenLicenses
-        )
+        LicensesRow(onClick = onOpenLicenses)
         HorizontalDivider(
                 thickness = 1.dp,
                 color = MaterialTheme.colorScheme.outlineVariant
@@ -153,7 +150,7 @@ private fun AboutCard(
 }
 
 @Composable
-private fun LicensesRow(licenseCount: Int, onClick: () -> Unit) {
+private fun LicensesRow(onClick: () -> Unit) {
     Row(
             modifier = Modifier
                     .fillMaxWidth()
@@ -161,26 +158,16 @@ private fun LicensesRow(licenseCount: Int, onClick: () -> Unit) {
                     .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-            Text(
-                    text = stringResource(R.string.settings_licenses_title),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface
-            )
-            Text(
-                    text = pluralStringResource(
-                            R.plurals.settings_licenses_subtitle,
-                            licenseCount,
-                            licenseCount
-                    ),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = AppTheme.extended.stoneMid
-            )
-        }
         Text(
-                text = "›",
+                text = stringResource(R.string.settings_licenses_title),
                 style = MaterialTheme.typography.titleMedium,
-                color = AppTheme.extended.chevron
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.weight(1f)
+        )
+        Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = null,
+                tint = AppTheme.extended.chevron
         )
     }
 }
@@ -213,7 +200,6 @@ private fun SettingsScreenPreview() {
     UrlDispatcherTheme {
         SettingsScaffold(
                 state = SettingsUiState(
-                        licenseCount = 12,
                         versionName = "2.0.0",
                         versionCode = 140
                 ),
