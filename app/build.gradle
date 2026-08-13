@@ -24,9 +24,18 @@ android {
                 : 0
         buildConfigField "int", "OSS_LICENSE_COUNT", "${ossLicenseCount}"
     }
+    signingConfigs {
+        release {
+            storeFile rootProject.file("release.keystore")
+            storePassword findProperty("storePassword")
+            keyAlias findProperty("keyAlias")
+            keyPassword findProperty("keyPassword")
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
