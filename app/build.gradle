@@ -94,7 +94,7 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.11.0"
     testImplementation "androidx.arch.core:core-testing:2.2.0"
 
-    androidTestImplementation "androidx.test:runner:1.6.2"
+    androidTestImplementation "androidx.test:runner:1.7.0"
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
     androidTestImplementation "androidx.room:room-testing:2.8.4"
     androidTestImplementation "com.google.truth:truth:1.4.2"
