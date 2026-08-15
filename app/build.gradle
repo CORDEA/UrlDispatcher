@@ -13,7 +13,7 @@ android {
         applicationId "jp.cordea.urldispatcher"
         minSdk 24
         targetSdk 37
-        versionCode 2
+        versionCode providers.gradleProperty("versionCode").map { it.toInteger() }.getOrElse(1)
         versionName "2.0.0"
         testInstrumentationRunner "jp.cordea.urldispatcher.TestRunner"
     }

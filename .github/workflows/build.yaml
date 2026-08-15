@@ -16,7 +16,8 @@ jobs:
           distribution: zulu
           java-version: 17
       - run: echo -n "${{ secrets.KEYSTORE }}" | base64 --decode > release.keystore
-      - run: ./gradlew bundleRelease
+      - name: Build release bundle
+        run: ./gradlew bundleRelease -PversionCode=$((51 + GITHUB_RUN_NUMBER))
         env:
           ORG_GRADLE_PROJECT_storePassword: ${{ secrets.STORE_PASSWORD }}
           ORG_GRADLE_PROJECT_keyPassword: ${{ secrets.KEY_PASSWORD }}
