@@ -5,6 +5,10 @@
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
+# The OSS Licenses activities look up their layouts and views by resource name.
+# Keep the library code so R8's optimized resource shrinker can see those uses.
+-keep class com.google.android.gms.oss.licenses.** { *; }
+
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:
